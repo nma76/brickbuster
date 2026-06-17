@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using brickbuster.Entities;
+using brickbuster.Entities.Blocks;
+using System.Collections.Generic;
 
 namespace brickbuster;
 
@@ -22,6 +24,9 @@ public class Game1 : Game
     // The ball that will bounce around the screen
     private Ball _ball;
 
+    // For testing only!!
+    private List<StandardBlock> _blocks = [];
+
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -31,6 +36,11 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
+        // For testing only!!
+        _blocks.Add(new StandardBlock(100, 100));
+        _blocks.Add(new StandardBlock(200, 100));
+        _blocks.Add(new StandardBlock(300, 100));
+
         // Set the window size
         _graphics.PreferredBackBufferWidth = 1200;
         _graphics.PreferredBackBufferHeight = 720;
@@ -69,6 +79,8 @@ public class Game1 : Game
         _ball.Update(gameTime);
         // Check for collisions with the walls and bounce the ball if necessary
         _ball.HandleWallCollision(GraphicsDevice.Viewport);
+        // Check for collision with the paddle and bounce the ball if necessary
+        _ball.handlePaddleCollision(_paddle.Rect);
 
         base.Update(gameTime);
     }
@@ -86,9 +98,15 @@ public class Game1 : Game
 
         // Draw the paddle
         _paddle.Draw(_spriteBatch, _pixel);
-        
+
         // Draw the ball
         _ball.Draw(_spriteBatch, _pixel);
+
+        // Draw the blocks
+        foreach (var block in _blocks)
+        {
+            block.Draw(_spriteBatch, _pixel);
+        }
 
         _spriteBatch.End();
         base.Draw(gameTime);
