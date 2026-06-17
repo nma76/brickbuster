@@ -95,7 +95,7 @@ public class Game1 : Game
         }
 
         // Update the level system (remove destroyed blocks etc.)
-        _levelSystem.handleBallOutOfBounds(_ball, GraphicsDevice.Viewport);
+        _levelSystem.HandleBallOutOfBounds(_ball, _paddle, GraphicsDevice.Viewport);
         _levelSystem.Update();
 
         base.Update(gameTime);

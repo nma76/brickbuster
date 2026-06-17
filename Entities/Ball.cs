@@ -45,7 +45,7 @@ public class Ball
         if (!IsLaunched)
         {
             // Give the ball an initial velocity to start moving
-            Velocity = new Vector2(50f, -350f);
+            Velocity = new Vector2(150f, -350f);
             IsLaunched = true;
         }
     }

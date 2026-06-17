@@ -36,11 +36,11 @@ public class LevelSystem
         Blocks.Add(new HardBlock(1000, 140));
     }
 
-    public void handleBallOutOfBounds(Ball ball, Viewport viewport)
+    public void HandleBallOutOfBounds(Ball ball, Paddle paddle, Viewport viewport)
     {
         if (ball.IsOutOfBounds(viewport))
         {
-            ball.Reset(viewport);   
+            ball.AttachToPaddle(paddle.Rect);
 
             // Todo: Handle player losing a life, resetting the level, etc.    
         }
