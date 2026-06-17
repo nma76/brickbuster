@@ -52,6 +52,9 @@ public class LevelSystem
                     case 'H':
                         Blocks.Add(new HardBlock(x, y));
                         break;
+                    case 'U':
+                        Blocks.Add(new UnbreakableBlock(x, y));
+                        break;
                 }
             }
         }
