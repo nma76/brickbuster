@@ -6,4 +6,5 @@ public static class GameConstants
     public const int BlockSpacingY = 20;
     public const int GridStartX = 100;
     public const int GridStartY = 60;
+    public const double PowerUpchance = 0.10;
 }

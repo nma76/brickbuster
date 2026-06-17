@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
@@ -16,6 +17,13 @@ public class LevelSystem
 
     // Player's current score
     public int Score { get; private set; } = 0;
+
+    private static readonly PowerUpType[] possiblePowerUps =
+    {
+        PowerUpType.ExpandPaddle,
+        PowerUpType.ExtraLife,
+        PowerUpType.ShrinkPaddle
+    };
 
     public LevelSystem()
     {
@@ -39,25 +47,48 @@ public class LevelSystem
                 char symbol = data.Grid[row][col];
 
                 // If symbol is . then do nothing
-                if (symbol == '.') continue;
+                if (symbol == '.')
+                {
+                    continue;
+                }
 
+                // Get position of the block
                 int x = GameConstants.GridStartX + col * (GameConstants.BlockWidth + GameConstants.BlockSpacingX);
                 int y = GameConstants.GridStartY + row * (GameConstants.BlockHeight + GameConstants.BlockSpacingY);
 
-                switch (symbol)
+                // check data for block type
+                BlockBase block = symbol switch
                 {
-                    case 'S':
-                        Blocks.Add(new StandardBlock(x, y));
-                        break;
-                    case 'H':
-                        Blocks.Add(new HardBlock(x, y));
-                        break;
-                    case 'U':
-                        Blocks.Add(new UnbreakableBlock(x, y));
-                        break;
+                    'S' => new StandardBlock(x, y),
+                    'H' => new HardBlock(x, y),
+                    'U' => new UnbreakableBlock(x, y),
+                    _ => null
+                };
+
+                if (block != null)
+                {
+                    // If block isn't unbreakable, it can hold a power-up
+                    if (!block.IsUnbreakable)
+                    {
+                        block.PowerUp = RandomizePowerUp();
+                    }
+
+                    // Add block
+                    Blocks.Add(block);
                 }
             }
         }
+    }
+
+    // Randomly set power-up
+    private PowerUpType RandomizePowerUp()
+    {
+        if (Random.Shared.NextDouble() < GameConstants.PowerUpchance)
+        {
+            return possiblePowerUps[Random.Shared.Next(possiblePowerUps.Length)];
+        }
+
+        return PowerUpType.None;
     }
 
     public void HandleBallOutOfBounds(Ball ball, Paddle paddle, Viewport viewport)
