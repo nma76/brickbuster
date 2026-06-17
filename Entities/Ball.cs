@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using brickbuster.Entities.Blocks;
 using System.Collections.Generic;
+using System;
 
 namespace brickbuster.Entities;
 
@@ -106,7 +107,6 @@ public class Ball
 
     public void HandleBlockCollision(List<BlockBase> blocks)
     {
-        // The ball's bounding rectangle
         Rectangle ballRect = new Rectangle(
             (int)(Position.X - Radius),
             (int)(Position.Y - Radius),
@@ -114,37 +114,52 @@ public class Ball
             (int)(Radius * 2)
         );
 
-        // Iterate through the blocks and check for collision
         foreach (var block in blocks)
         {
-            // Skip destroyed blocks
             if (block.IsDestroyed)
                 continue;
 
-            // Check for collision with the block
-            if (ballRect.Intersects(block.Rect))
-            {
-                // Register the hit on the block
-                block.Hit();
+            if (!ballRect.Intersects(block.Rect))
+                continue;
 
-                // Simple response: reverse the Y velocity
+            // Skada blocket
+            block.Hit();
+
+            // Beräkna överlappning i X och Y
+            float overlapLeft = (ballRect.Right - block.Rect.Left);
+            float overlapRight = (block.Rect.Right - ballRect.Left);
+            float overlapTop = (ballRect.Bottom - block.Rect.Top);
+            float overlapBottom = (block.Rect.Bottom - ballRect.Top);
+
+            // Ta minsta överlappningen → avgör kollisionens riktning
+            float minOverlapX = Math.Min(overlapLeft, overlapRight);
+            float minOverlapY = Math.Min(overlapTop, overlapBottom);
+
+            if (minOverlapX < minOverlapY)
+            {
+                // SIDOKOLLISION → invertera X
+                Velocity.X *= -1;
+
+                if (overlapLeft < overlapRight)
+                    Position.X = block.Rect.Left - Radius;
+                else
+                    Position.X = block.Rect.Right + Radius;
+            }
+            else
+            {
+                // TOPP/BOTTEN → invertera Y
                 Velocity.Y *= -1;
 
-                // Prevent sticking by moving the ball out of the block
-                if (Position.Y < block.Rect.Center.Y)
-                {
+                if (overlapTop < overlapBottom)
                     Position.Y = block.Rect.Top - Radius;
-                }
                 else
-                {
                     Position.Y = block.Rect.Bottom + Radius;
-                }
-
-                // Only handle one block collision per update to prevent multiple bounces
-                break;
             }
+
+            break; // Endast en kollision per frame
         }
     }
+
 
     public bool IsOutOfBounds(Viewport viewport)
     {
@@ -160,7 +175,7 @@ public class Ball
 
     public void Update(GameTime gameTime)
     {
-        if(!IsLaunched)
+        if (!IsLaunched)
         {
             // If the ball is not launched, it should not move
             return;
