@@ -21,6 +21,30 @@ namespace brickbuster.Entities
             Velocity = new Vector2(200f, -200f);
         }
 
+        public void HandleWallCollision(Viewport viewport, int wallThickness = 10)
+        {
+            // Check for collision with the left wall
+            if (Position.X - Radius < wallThickness)
+            {
+                Position.X = wallThickness + Radius;
+                Velocity.X *= -1;
+            }
+
+            // Check for collision with the right wall
+            if (Position.X + Radius > viewport.Width - wallThickness)
+            {
+                Position.X = viewport.Width - wallThickness - Radius;
+                Velocity.X *= -1;
+            }
+
+            // Check for collision with the top wall
+            if (Position.Y - Radius < wallThickness)
+            {
+                Position.Y = wallThickness + Radius;
+                Velocity.Y *= -1;
+            }
+        }
+
         public void Update(GameTime gameTime)
         {
             // Move the ball based on its velocity and the elapsed time since the last update

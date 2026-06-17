@@ -67,6 +67,8 @@ public class Game1 : Game
 
         // Update the ball's position
         _ball.Update(gameTime);
+        // Check for collisions with the walls and bounce the ball if necessary
+        _ball.HandleWallCollision(GraphicsDevice.Viewport);
 
         base.Update(gameTime);
     }
