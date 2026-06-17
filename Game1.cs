@@ -82,6 +82,7 @@ public class Game1 : Game
         _ball.HandleBlockCollision(_levelSystem.Blocks);
 
         // Update the level system (remove destroyed blocks etc.)
+        _levelSystem.handleBallOutOfBounds(_ball, GraphicsDevice.Viewport);
         _levelSystem.Update();
 
         base.Update(gameTime);

@@ -20,7 +20,7 @@ public class Ball
         Position = new Vector2(viewport.Width / 2f, viewport.Height / 2f);
 
         // Give the ball an initial velocity
-        Velocity = new Vector2(200f, -200f);
+        Velocity = new Vector2(350f, -350f);
     }
 
     public void HandleWallCollision(Viewport viewport, int wallThickness = 10)
@@ -117,6 +117,18 @@ public class Ball
                 break;
             }
         }
+    }
+
+    public bool IsOutOfBounds(Viewport viewport)
+    {
+        // Check if the ball has fallen below the bottom of the screen
+        return Position.Y - Radius > viewport.Height;
+    }
+
+    public void Reset(Viewport viewport)
+    {
+        Position = new Vector2(viewport.Width / 2f, viewport.Height / 2f);
+        Velocity = new Vector2(350f, -350f);
     }
 
     public void Update(GameTime gameTime)
