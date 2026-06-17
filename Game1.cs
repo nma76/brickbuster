@@ -19,6 +19,9 @@ public class Game1 : Game
     // The player's paddle
     private Paddle _paddle;
 
+    // The ball that will bounce around the screen
+    private Ball _ball;
+
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -40,6 +43,9 @@ public class Game1 : Game
         // Initialize the player's paddle
         _paddle = new Paddle(GraphicsDevice.Viewport);
 
+        // Initialize the ball
+        _ball = new Ball(GraphicsDevice.Viewport);
+
         base.Initialize();
     }
 
@@ -59,6 +65,9 @@ public class Game1 : Game
         var mouse = Mouse.GetState();
         _paddle.MoveTo(mouse.X);
 
+        // Update the ball's position
+        _ball.Update(gameTime);
+
         base.Update(gameTime);
     }
 
@@ -75,6 +84,9 @@ public class Game1 : Game
 
         // Draw the paddle
         _paddle.Draw(_spriteBatch, _pixel);
+        
+        // Draw the ball
+        _ball.Draw(_spriteBatch, _pixel);
 
         _spriteBatch.End();
         base.Draw(gameTime);
