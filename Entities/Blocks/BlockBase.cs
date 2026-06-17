@@ -8,6 +8,7 @@ public class BlockBase
     public Rectangle Rect { get; private set; }
     public int HitPoints { get; private set; }
     public Color Color { get; private set; }
+    public int ScoreValue { get; private set; }
     public bool IsDestroyed => HitPoints <= 0;
 
     public BlockBase(int x, int y, int width, int height, Color color, int hitPoints = 1)
@@ -15,6 +16,7 @@ public class BlockBase
         Rect = new Rectangle(x, y, width, height);
         Color = color;
         HitPoints = hitPoints;
+        ScoreValue = hitPoints * 100;
     }
 
     public void Hit()

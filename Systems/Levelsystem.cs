@@ -12,7 +12,7 @@ public class LevelSystem
 
     public LevelSystem()
     {
-        // For testing only!!
+        // For testing only!! Replace this with data loader from json file or something similar later on
         Blocks.Add(new StandardBlock(100, 100));
         Blocks.Add(new StandardBlock(200, 100));
         Blocks.Add(new StandardBlock(300, 100));
