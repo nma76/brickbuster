@@ -1,0 +1,27 @@
+/ArkanoidGame
+│
+├── Game1.cs
+├── ArkanoidGame.csproj
+│
+├── Content/
+│   ├── Content.mgcb
+│   └── sprites/ (om du lägger till grafik senare)
+│
+├── Core/
+│   ├── GameState.cs
+│   ├── IUpdatable.cs
+│   └── IDrawableEntity.cs
+│
+├── Entities/
+│   ├── Paddle.cs
+│   ├── Ball.cs
+│   └── Brick.cs
+│
+├── Systems/
+│   ├── CollisionSystem.cs
+│   ├── InputSystem.cs
+│   └── LevelSystem.cs
+│
+└── Rendering/
+    ├── SpriteRenderer.cs
+    └── Pixel.cs

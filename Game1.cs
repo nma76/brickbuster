@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using brickbuster.Entities;
 
 namespace brickbuster;
 
@@ -10,10 +11,10 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
 
     // Create a pixel texture for drawing rectangles
-    Texture2D _pixel;
+    private Texture2D _pixel;
 
     // Boundary of the game world
-    Rectangle leftWall, rightWall, topWall;
+    private Boundary _boundary;
 
     public Game1()
     {
@@ -31,12 +32,7 @@ public class Game1 : Game
 
         // Define the walls of the game world
         int thickness = 10;
-        int width = GraphicsDevice.Viewport.Width;
-        int height = GraphicsDevice.Viewport.Height;
-
-        leftWall = new Rectangle(0, 0, thickness, height);
-        rightWall = new Rectangle(width - thickness, 0, thickness, height);
-        topWall = new Rectangle(0, 0, width, thickness);
+        _boundary = new Boundary(GraphicsDevice.Viewport, thickness);
 
         base.Initialize();
     }
@@ -65,9 +61,7 @@ public class Game1 : Game
         _spriteBatch.Begin();
 
         // Draw the walls
-        _spriteBatch.Draw(_pixel, leftWall, Color.Red);
-        _spriteBatch.Draw(_pixel, rightWall, Color.Red);
-        _spriteBatch.Draw(_pixel, topWall, Color.Red);
+        _boundary.Draw(_spriteBatch, _pixel);
 
 
         _spriteBatch.End();
