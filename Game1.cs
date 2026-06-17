@@ -25,7 +25,7 @@ public class Game1 : Game
     private Ball _ball;
 
     // For testing only!!
-    private List<StandardBlock> _blocks = [];
+    private List<BlockBase> _blocks = [];
 
     public Game1()
     {
@@ -80,7 +80,11 @@ public class Game1 : Game
         // Check for collisions with the walls and bounce the ball if necessary
         _ball.HandleWallCollision(GraphicsDevice.Viewport);
         // Check for collision with the paddle and bounce the ball if necessary
-        _ball.handlePaddleCollision(_paddle.Rect);
+        _ball.HandlePaddleCollision(_paddle.Rect);
+        // Check for collision with the blocks and bounce the ball if necessary
+        _ball.HandleBlockCollision(_blocks);
+        // TODO: Temporary code to remove destroyed blocks, this should be handled in a more robust way
+        _blocks.RemoveAll(b => b.IsDestroyed);
 
         base.Update(gameTime);
     }

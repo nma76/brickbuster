@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using brickbuster.Entities.Blocks;
+using System.Collections.Generic;
 
 namespace brickbuster.Entities;
 
@@ -45,7 +47,7 @@ public class Ball
         }
     }
 
-    public void handlePaddleCollision(Rectangle paddleRect)
+    public void HandlePaddleCollision(Rectangle paddleRect)
     {
         // Check if the ball is colliding with the paddle
         Rectangle ballRect = new Rectangle(
@@ -72,6 +74,48 @@ public class Ball
 
             // Scale the horizontal velocity based on the normalized distance
             Velocity.X = normalized * 250f;
+        }
+    }
+
+    public void HandleBlockCollision(List<BlockBase> blocks)
+    {
+        // The ball's bounding rectangle
+        Rectangle ballRect = new Rectangle(
+            (int)(Position.X - Radius),
+            (int)(Position.Y - Radius),
+            (int)(Radius * 2),
+            (int)(Radius * 2)
+        );
+
+        // Iterate through the blocks and check for collision
+        foreach (var block in blocks)
+        {
+            // Skip destroyed blocks
+            if (block.IsDestroyed)
+                continue;
+
+            // Check for collision with the block
+            if (ballRect.Intersects(block.Rect))
+            {
+                // Register the hit on the block
+                block.Hit();
+
+                // Simple response: reverse the Y velocity
+                Velocity.Y *= -1;
+
+                // Prevent sticking by moving the ball out of the block
+                if (Position.Y < block.Rect.Center.Y)
+                {
+                    Position.Y = block.Rect.Top - Radius;
+                }
+                else
+                {
+                    Position.Y = block.Rect.Bottom + Radius;
+                }
+
+                // Only handle one block collision per update to prevent multiple bounces
+                break;
+            }
         }
     }
 
