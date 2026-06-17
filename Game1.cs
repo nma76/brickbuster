@@ -16,6 +16,9 @@ public class Game1 : Game
     // Boundary of the game world
     private Boundary _boundary;
 
+    // The player's paddle
+    private Paddle _paddle;
+
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -30,9 +33,12 @@ public class Game1 : Game
         _graphics.PreferredBackBufferHeight = 720;
         _graphics.ApplyChanges();
 
-        // Define the walls of the game world
+        // Initialize the boundary with a thickness of 10 pixels
         int thickness = 10;
         _boundary = new Boundary(GraphicsDevice.Viewport, thickness);
+
+        // Initialize the player's paddle
+        _paddle = new Paddle(GraphicsDevice.Viewport);
 
         base.Initialize();
     }
@@ -49,6 +55,10 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
+        // Move the paddle based on the mouse's X position
+        var mouse = Mouse.GetState();
+        _paddle.MoveTo(mouse.X);
+
         base.Update(gameTime);
     }
 
@@ -63,6 +73,8 @@ public class Game1 : Game
         // Draw the walls
         _boundary.Draw(_spriteBatch, _pixel);
 
+        // Draw the paddle
+        _paddle.Draw(_spriteBatch, _pixel);
 
         _spriteBatch.End();
         base.Draw(gameTime);
