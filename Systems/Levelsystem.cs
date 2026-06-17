@@ -118,9 +118,26 @@ public class LevelSystem
 
     public void Draw(SpriteBatch spriteBatch, Texture2D pixel)
     {
+        // Iterate all blocks
         foreach (var block in Blocks)
         {
+            // Draw the block
             block.Draw(spriteBatch, pixel);
+
+            // If debug is true, visualize where power-ups are located
+            if (GameConstants.Debug)
+            {
+                if (block.PowerUp != PowerUpType.None)
+                {
+                    var marker = new Rectangle(
+                        block.Rect.Center.X - 5,
+                        block.Rect.Center.Y - 5,
+                        10,
+                        10
+                    );
+                    spriteBatch.Draw(pixel, marker, Color.Gold);
+                }
+            }
         }
     }
 }
