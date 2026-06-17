@@ -7,9 +7,13 @@ namespace brickbuster.Entities;
 
 public class Ball
 {
+    // The ball's position, velocity, and radius
     public Vector2 Position;
     public Vector2 Velocity;
     public float Radius;
+
+    // Indicates whether the ball has been launched or is still waiting on the paddle
+    public bool IsLaunched { get; private set; } = false;
 
     public Ball(Viewport viewport)
     {
@@ -21,6 +25,29 @@ public class Ball
 
         // Give the ball an initial velocity
         Velocity = new Vector2(350f, -350f);
+    }
+
+    public void AttachToPaddle(Rectangle paddleRect)
+    {
+        // Position the ball on top of the paddle, centered horizontally
+        Position.X = paddleRect.X + paddleRect.Width / 2f;
+        Position.Y = paddleRect.Y - Radius - 2;
+
+        // Reset the ball's velocity
+        Velocity = Vector2.Zero;
+
+        // The ball is not launched yet
+        IsLaunched = false;
+    }
+
+    public void Launch()
+    {
+        if (!IsLaunched)
+        {
+            // Give the ball an initial velocity to start moving
+            Velocity = new Vector2(50f, -350f);
+            IsLaunched = true;
+        }
     }
 
     public void HandleWallCollision(Viewport viewport, int wallThickness = 10)
@@ -133,6 +160,12 @@ public class Ball
 
     public void Update(GameTime gameTime)
     {
+        if(!IsLaunched)
+        {
+            // If the ball is not launched, it should not move
+            return;
+        }
+
         // Move the ball based on its velocity and the elapsed time since the last update
         float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
         Position += Velocity * deltaTime;

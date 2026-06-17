@@ -35,13 +35,13 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        // Initialize the level system and create some blocks for testing
-        _levelSystem = new LevelSystem();
-
         // Set the window size
         _graphics.PreferredBackBufferWidth = 1200;
         _graphics.PreferredBackBufferHeight = 720;
         _graphics.ApplyChanges();
+
+        // Initialize the level system and create some blocks for testing
+        _levelSystem = new LevelSystem();
 
         // Initialize the boundary with a thickness of 10 pixels
         int thickness = 10;
@@ -52,6 +52,7 @@ public class Game1 : Game
 
         // Initialize the ball
         _ball = new Ball(GraphicsDevice.Viewport);
+        _ball.AttachToPaddle(_paddle.Rect);
 
         base.Initialize();
     }
@@ -72,14 +73,26 @@ public class Game1 : Game
         var mouse = Mouse.GetState();
         _paddle.MoveTo(mouse.X);
 
-        // Update the ball's position
-        _ball.Update(gameTime);
-        // Check for collisions with the walls and bounce the ball if necessary
-        _ball.HandleWallCollision(GraphicsDevice.Viewport);
-        // Check for collision with the paddle and bounce the ball if necessary
-        _ball.HandlePaddleCollision(_paddle.Rect);
-        // Check for collision with the blocks and bounce the ball if necessary
-        _ball.HandleBlockCollision(_levelSystem.Blocks);
+        if (!_ball.IsLaunched)
+        {
+            _ball.AttachToPaddle(_paddle.Rect);
+
+            if (mouse.LeftButton == ButtonState.Pressed)
+            {
+                _ball.Launch();
+            }
+        }
+        else
+        {
+            // Update the ball's position
+            _ball.Update(gameTime);
+            // Check for collisions with the walls and bounce the ball if necessary
+            _ball.HandleWallCollision(GraphicsDevice.Viewport);
+            // Check for collision with the paddle and bounce the ball if necessary
+            _ball.HandlePaddleCollision(_paddle.Rect);
+            // Check for collision with the blocks and bounce the ball if necessary
+            _ball.HandleBlockCollision(_levelSystem.Blocks);
+        }
 
         // Update the level system (remove destroyed blocks etc.)
         _levelSystem.handleBallOutOfBounds(_ball, GraphicsDevice.Viewport);
