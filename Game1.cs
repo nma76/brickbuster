@@ -2,8 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using brickbuster.Entities;
-using brickbuster.Entities.Blocks;
-using System.Collections.Generic;
+using brickbuster.Systems;
 
 namespace brickbuster;
 
@@ -15,6 +14,9 @@ public class Game1 : Game
     // Create a pixel texture for drawing rectangles
     private Texture2D _pixel;
 
+    // The level system that manages the blocks in the game
+    private LevelSystem _levelSystem;
+
     // Boundary of the game world
     private Boundary _boundary;
 
@@ -23,9 +25,6 @@ public class Game1 : Game
 
     // The ball that will bounce around the screen
     private Ball _ball;
-
-    // For testing only!!
-    private List<BlockBase> _blocks = [];
 
     public Game1()
     {
@@ -36,10 +35,8 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        // For testing only!!
-        _blocks.Add(new StandardBlock(100, 100));
-        _blocks.Add(new StandardBlock(200, 100));
-        _blocks.Add(new StandardBlock(300, 100));
+        // Initialize the level system and create some blocks for testing
+        _levelSystem = new LevelSystem();
 
         // Set the window size
         _graphics.PreferredBackBufferWidth = 1200;
@@ -82,9 +79,10 @@ public class Game1 : Game
         // Check for collision with the paddle and bounce the ball if necessary
         _ball.HandlePaddleCollision(_paddle.Rect);
         // Check for collision with the blocks and bounce the ball if necessary
-        _ball.HandleBlockCollision(_blocks);
-        // TODO: Temporary code to remove destroyed blocks, this should be handled in a more robust way
-        _blocks.RemoveAll(b => b.IsDestroyed);
+        _ball.HandleBlockCollision(_levelSystem.Blocks);
+
+        // Update the level system (remove destroyed blocks etc.)
+        _levelSystem.Update();
 
         base.Update(gameTime);
     }
@@ -107,10 +105,7 @@ public class Game1 : Game
         _ball.Draw(_spriteBatch, _pixel);
 
         // Draw the blocks
-        foreach (var block in _blocks)
-        {
-            block.Draw(_spriteBatch, _pixel);
-        }
+        _levelSystem.Draw(_spriteBatch, _pixel);
 
         _spriteBatch.End();
         base.Draw(gameTime);
