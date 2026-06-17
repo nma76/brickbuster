@@ -1,0 +1,49 @@
+# --- Build output ---
+bin/
+obj/
+out/
+artifacts/
+
+# --- MonoGame Content Pipeline ---
+Content/bin/
+Content/obj/
+*.mgcontent
+*.mgcb.tmp
+
+# --- VS Code ---
+.vscode/
+*.code-workspace
+
+# --- User-specific files ---
+*.user
+*.suo
+
+# --- Logs / temp ---
+*.log
+*.tmp
+*.temp
+
+# --- NuGet ---
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+project.lock.json
+
+# --- Cache ---
+*.pidb
+*.svclog
+*.ide
+*.cache/
+*.db
+
+# --- Rider / JetBrains ---
+.idea/
+*.sln.iml
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+
+# --- Optional: ignore local tools ---
+.tools/
