@@ -8,7 +8,11 @@ namespace brickbuster.Systems;
 
 public class LevelSystem
 {
+    // List of blocks in the current level
     public List<BlockBase> Blocks { get; private set; } = [];
+
+    // Player's current score
+    public int Score { get; private set; } = 0;
 
     public LevelSystem()
     {
@@ -48,6 +52,15 @@ public class LevelSystem
 
     public void Update()
     {
+        // Check for destroyed blocks and update the score
+        foreach(var block in Blocks)
+        {
+            if(block.IsDestroyed)
+            {
+                Score += block.ScoreValue;
+            }
+        }
+
         // Remove destroyed blocks
         Blocks.RemoveAll(b => b.IsDestroyed);
     }

@@ -121,6 +121,9 @@ public class Game1 : Game
         // Draw the blocks
         _levelSystem.Draw(_spriteBatch, _pixel);
 
+        // show current score
+        _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Score: {_levelSystem.Score}", new Vector2(10, 10), Color.White);
+
         _spriteBatch.End();
         base.Draw(gameTime);
     }
