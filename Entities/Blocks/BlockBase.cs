@@ -11,9 +11,9 @@ public class BlockBase
     public int ScoreValue { get; private set; }
     public bool IsDestroyed => HitPoints <= 0;
 
-    public BlockBase(int x, int y, int width, int height, Color color, int hitPoints = 1)
+    public BlockBase(int x, int y, Color color, int hitPoints = 1)
     {
-        Rect = new Rectangle(x, y, width, height);
+        Rect = new Rectangle(x, y, GameConstants.BlockWidth, GameConstants.BlockHeight);
         Color = color;
         HitPoints = hitPoints;
         ScoreValue = hitPoints * 100;

@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 using brickbuster.Entities;
 using brickbuster.Entities.Blocks;
+using brickbuster.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -16,28 +19,42 @@ public class LevelSystem
 
     public LevelSystem()
     {
-        // For testing only!! Replace this with data loader from json file or something similar later on
-        Blocks.Add(new StandardBlock(100, 100));
-        Blocks.Add(new StandardBlock(200, 100));
-        Blocks.Add(new StandardBlock(300, 100));
-        Blocks.Add(new StandardBlock(400, 100));
-        Blocks.Add(new StandardBlock(500, 100));
-        Blocks.Add(new StandardBlock(600, 100));
-        Blocks.Add(new StandardBlock(700, 100));
-        Blocks.Add(new StandardBlock(800, 100));
-        Blocks.Add(new StandardBlock(900, 100));
-        Blocks.Add(new StandardBlock(1000, 100));
+        LoadLevel("level0001");
+    }
 
-        Blocks.Add(new HardBlock(100, 140));
-        Blocks.Add(new HardBlock(200, 140));
-        Blocks.Add(new HardBlock(300, 140));
-        Blocks.Add(new HardBlock(400, 140));
-        Blocks.Add(new HardBlock(500, 140));
-        Blocks.Add(new HardBlock(600, 140));
-        Blocks.Add(new HardBlock(700, 140));
-        Blocks.Add(new HardBlock(800, 140));
-        Blocks.Add(new HardBlock(900, 140));
-        Blocks.Add(new HardBlock(1000, 140));
+    public void LoadLevel(string levelName)
+    {
+        // Read level data from file
+        var json = File.ReadAllText($"GameData/Levels/{levelName}.json");
+        var data = JsonSerializer.Deserialize<LevelData>(json, JsonConfig.JsonOptions);
+
+        // Clear blocks
+        Blocks.Clear();
+
+        for (int row = 0; row < data.Grid.Length; row++)
+        {
+            for (int col = 0; col < data.Grid[row].Length; col++)
+            {
+                // Get symbol of current position in JSON
+                char symbol = data.Grid[row][col];
+
+                // If symbol is . then do nothing
+                if (symbol == '.') continue;
+
+                int x = GameConstants.GridStartX + col * (GameConstants.BlockWidth + GameConstants.BlockSpacingX);
+                int y = GameConstants.GridStartY + row * (GameConstants.BlockHeight + GameConstants.BlockSpacingY);
+
+                switch (symbol)
+                {
+                    case 'S':
+                        Blocks.Add(new StandardBlock(x, y));
+                        break;
+                    case 'H':
+                        Blocks.Add(new HardBlock(x, y));
+                        break;
+                }
+            }
+        }
     }
 
     public void HandleBallOutOfBounds(Ball ball, Paddle paddle, Viewport viewport)
@@ -53,9 +70,9 @@ public class LevelSystem
     public void Update()
     {
         // Check for destroyed blocks and update the score
-        foreach(var block in Blocks)
+        foreach (var block in Blocks)
         {
-            if(block.IsDestroyed)
+            if (block.IsDestroyed)
             {
                 Score += block.ScoreValue;
             }

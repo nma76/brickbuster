@@ -4,7 +4,7 @@ namespace brickbuster.Entities.Blocks;
 
 public class StandardBlock : BlockBase
 {
-    public StandardBlock(int x, int y) : base(x, y, 80, 30, Color.Green, 1)
+    public StandardBlock(int x, int y) : base(x, y, Color.Green, 1)
     {
     }
 }
