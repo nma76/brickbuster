@@ -1,0 +1,8 @@
+Livsystem
+Level‑clear och nästa level
+Powerups som faller nedåt
+Kollision mellan powerup och paddel
+Game Over‑flöde
+UI för liv, score, level
+Ljud (ping, pong, explosion)
+Sedan grafik
