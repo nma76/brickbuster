@@ -24,13 +24,6 @@ public class LevelSystem
     // Keep track of if level is cleared from breakable blocks
     public bool IsLevelCleared => Blocks.Where(b => b.Type != BlockType.Unbreakable).All(b => b.IsDestroyed);
 
-    private static readonly PowerUpType[] possiblePowerUps =
-    {
-        PowerUpType.ExpandPaddle,
-        PowerUpType.ExtraLife,
-        PowerUpType.ShrinkPaddle
-    };
-
     public LevelSystem()
     {
         LoadLevel("0001");
@@ -70,7 +63,7 @@ public class LevelSystem
                     // If block isn't unbreakable, it can hold a power-up
                     if (block.Type != BlockType.Unbreakable)
                     {
-                        block.PowerUp = RandomizePowerUp();
+                        block.PowerUp = PowerUpRandomizer.Roll();
                     }
 
                     // Add block
@@ -78,17 +71,6 @@ public class LevelSystem
                 }
             }
         }
-    }
-
-    // Randomly set power-up
-    private PowerUpType RandomizePowerUp()
-    {
-        if (Random.Shared.NextDouble() < GameConstants.PowerUpchance)
-        {
-            return possiblePowerUps[Random.Shared.Next(possiblePowerUps.Length)];
-        }
-
-        return PowerUpType.None;
     }
 
     public void HandleLevelComplete()
