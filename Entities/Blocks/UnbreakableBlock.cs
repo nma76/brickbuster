@@ -4,7 +4,7 @@ namespace brickbuster.Entities.Blocks;
 
 public class UnbreakableBlock : BlockBase
 {
-    public UnbreakableBlock(int x, int y) : base(x, y, Color.DarkGray, 0, true)
+    public UnbreakableBlock(int x, int y) : base(x, y, Color.DarkGray, 0, 0, true)
     {
     }
 }

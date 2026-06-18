@@ -1,15 +1,13 @@
 {
     "name": "Level 1",
     "grid": [
-        "S..........S",
-        "S..........S",
-        "SU.S....S.US",
-        "S.U.S..S.U.S",
-        "S..U.SS.U..S",
-        "S...U..U...S",
-        "S....UU....S",
-        "S..........S",
-        "S..........S",
-        "S..........S"
+        "............",
+        "HHHHHHHHHHHH",
+        "RRR.RRRR.RRR",
+        "OOO.OOOO.OOO",
+        "YYY.YYYY.YYY",
+        "BBB.BBBB.BBB",
+        "GGG.GGGG.GGG",
+        "............"
     ]
 }

@@ -12,14 +12,14 @@ public class BlockBase
     public int ScoreValue { get; private set; }
     public bool IsDestroyed => !IsUnbreakable && HitPoints <= 0;
     public bool IsUnbreakable { get; private set; }
-    public PowerUpType PowerUp {get; set; }
+    public PowerUpType PowerUp { get; set; }
 
-    public BlockBase(int x, int y, Color color, int hitPoints = 1, bool isUnbreakable = false, PowerUpType powerUp = PowerUpType.None)
+    public BlockBase(int x, int y, Color color, int hitPoints = 1, int scoreValue = 100, bool isUnbreakable = false, PowerUpType powerUp = PowerUpType.None)
     {
         Rect = new Rectangle(x, y, GameConstants.BlockWidth, GameConstants.BlockHeight);
         Color = color;
         HitPoints = hitPoints;
-        ScoreValue = hitPoints * 100;
+        ScoreValue = scoreValue;
         IsUnbreakable = isUnbreakable;
         PowerUp = powerUp;
     }
