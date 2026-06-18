@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using brickbuster.Entities;
 using brickbuster.Entities.Blocks;
@@ -15,9 +16,13 @@ public class LevelSystem
     // List of blocks in the current level
     public List<BlockBase> Blocks { get; private set; } = [];
 
-    // Player's current score
+    // Player's current score, lifes and current level
     public int Score { get; private set; } = 0;
-    public int Lifes {get; private set; } = GameConstants.PlayerLifes;
+    public int Lifes { get; private set; } = GameConstants.PlayerLifes;
+    public int CurrentLevel { get; private set; } = 1;
+
+    // Keep track of if level is cleared from breakable blocks
+    public bool IsLevelCleared => Blocks.Where(b => b.Type != BlockType.Unbreakable).All(b => b.IsDestroyed);
 
     private static readonly PowerUpType[] possiblePowerUps =
     {
@@ -96,10 +101,16 @@ public class LevelSystem
         return PowerUpType.None;
     }
 
+    public void HandleLevelComplete()
+    {
+        CurrentLevel++;
+        LoadLevel(CurrentLevel.ToString("0000"));
+    }
+
     public bool HandleBallOutOfBounds(Ball ball, Paddle paddle, Viewport viewport)
     {
         if (ball.IsOutOfBounds(viewport))
-        {            
+        {
             return true;
         }
         return false;
@@ -109,9 +120,9 @@ public class LevelSystem
     {
         Lifes--;
 
-        if(Lifes <= 0)
+        if (Lifes <= 0)
         {
-            HandleGameOver();    
+            HandleGameOver();
         }
     }
 
@@ -119,12 +130,13 @@ public class LevelSystem
     {
         Score = 0;
         Lifes = GameConstants.PlayerLifes;
-        LoadLevel("0001");
+        CurrentLevel = 1;
+        LoadLevel(CurrentLevel.ToString("0000"));
     }
 
     public void Update(Ball ball, Paddle paddle, Viewport viewport)
     {
-        if(HandleBallOutOfBounds(ball, paddle, viewport))
+        if (HandleBallOutOfBounds(ball, paddle, viewport))
         {
             HandleLifes();
             ball.AttachToPaddle(paddle.Rect);
@@ -142,6 +154,12 @@ public class LevelSystem
 
         // Remove destroyed blocks
         Blocks.RemoveAll(b => b.IsDestroyed);
+
+        if(IsLevelCleared)
+        {
+            HandleLevelComplete();
+            ball.AttachToPaddle(paddle.Rect);
+        }
     }
 
     public void Draw(SpriteBatch spriteBatch, Texture2D pixel)
