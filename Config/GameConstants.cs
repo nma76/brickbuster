@@ -1,6 +1,7 @@
 public static class GameConstants
 {
     public const bool Debug = true;
+    public const int PlayerLifes = 2;
     public const int BlockWidth = 80;
     public const int BlockHeight = 30;
     public const int BlockSpacingX = 5;

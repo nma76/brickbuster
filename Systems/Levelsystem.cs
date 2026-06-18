@@ -17,6 +17,7 @@ public class LevelSystem
 
     // Player's current score
     public int Score { get; private set; } = 0;
+    public int Lifes {get; private set; } = GameConstants.PlayerLifes;
 
     private static readonly PowerUpType[] possiblePowerUps =
     {
@@ -27,13 +28,13 @@ public class LevelSystem
 
     public LevelSystem()
     {
-        LoadLevel("level0001");
+        LoadLevel("0001");
     }
 
-    public void LoadLevel(string levelName)
+    public void LoadLevel(string level)
     {
         // Read level data from file
-        var json = File.ReadAllText($"GameData/Levels/{levelName}.json");
+        var json = File.ReadAllText($"GameData/Levels/level{level}.json");
         var data = JsonSerializer.Deserialize<LevelData>(json, JsonConfig.JsonOptions);
 
         // Clear blocks
@@ -91,19 +92,42 @@ public class LevelSystem
         return PowerUpType.None;
     }
 
-    public void HandleBallOutOfBounds(Ball ball, Paddle paddle, Viewport viewport)
+    public bool HandleBallOutOfBounds(Ball ball, Paddle paddle, Viewport viewport)
     {
         if (ball.IsOutOfBounds(viewport))
-        {
-            ball.AttachToPaddle(paddle.Rect);
+        {            
+            return true;
+        }
+        return false;
+    }
 
-            // Todo: Handle player losing a life, resetting the level, etc.    
+    private void HandleLifes()
+    {
+        Lifes--;
+
+        if(Lifes <= 0)
+        {
+            HandleGameOver();    
         }
     }
 
-    public void Update()
+    private void HandleGameOver()
     {
+        Score = 0;
+        Lifes = GameConstants.PlayerLifes;
+        LoadLevel("0001");
+    }
+
+    public void Update(Ball ball, Paddle paddle, Viewport viewport)
+    {
+        if(HandleBallOutOfBounds(ball, paddle, viewport))
+        {
+            HandleLifes();
+            ball.AttachToPaddle(paddle.Rect);
+        }
+
         // Check for destroyed blocks and update the score
+        // TODO: Move this to HandleScore
         foreach (var block in Blocks)
         {
             if (block.IsDestroyed)

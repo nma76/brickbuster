@@ -95,8 +95,7 @@ public class Game1 : Game
         }
 
         // Update the level system (remove destroyed blocks etc.)
-        _levelSystem.HandleBallOutOfBounds(_ball, _paddle, GraphicsDevice.Viewport);
-        _levelSystem.Update();
+        _levelSystem.Update(_ball, _paddle, GraphicsDevice.Viewport);
 
         base.Update(gameTime);
     }
@@ -123,6 +122,9 @@ public class Game1 : Game
 
         // show current score
         _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Score: {_levelSystem.Score}", new Vector2(10, 10), Color.White);
+
+        // Show current lifes
+        _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Lifes: {_levelSystem.Lifes}", new Vector2(250, 10), Color.White);
 
         _spriteBatch.End();
         base.Draw(gameTime);
