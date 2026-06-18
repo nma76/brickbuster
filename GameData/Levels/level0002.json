@@ -1,0 +1,15 @@
+{
+    "name": "Level 1",
+    "grid": [
+        "SSSSSSSSSSSS",
+        "SSHHSSHHSSHH",
+        "............",
+        "UUUUUUUUUUUU",
+        "SS..SSSS..SS",
+        "SS..HHHH..SS",
+        "SS..SSSS..SS",
+        "SSSSHHHHSSSS",
+        "SSSSSSSSSSSS",
+        "UUUUUUUUUUUU"
+    ]
+}
