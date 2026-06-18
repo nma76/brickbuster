@@ -103,7 +103,7 @@ public class Game1 : Game
             // Check for collision with the paddle and bounce the ball if necessary
             _ball.HandlePaddleCollision(_paddle.Rect);
             // Check for collision with the blocks and bounce the ball if necessary
-            _ball.HandleBlockCollision(_levelSystem.Blocks);
+            _ball.HandleBlockCollision(_levelSystem.CurrentLevelData.Blocks);
         }
 
         // Update the level system (remove destroyed blocks etc.)

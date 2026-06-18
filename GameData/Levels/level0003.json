@@ -1,5 +1,7 @@
 {
     "name": "Level 1",
+    "music": "brickbuster.ogg",
+    "background": "level0001.png",
     "grid": [
         "............",
         "HHHHHHHHHHHH",

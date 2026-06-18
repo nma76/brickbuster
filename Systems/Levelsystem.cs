@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using System.Linq;
 using brickbuster.Entities;
-using brickbuster.Entities.Blocks;
+using brickbuster.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,8 +8,8 @@ namespace brickbuster.Systems;
 
 public class LevelSystem
 {
-    // List of blocks in the current level
-    public List<BlockBase> Blocks { get; private set; } = [];
+    // Holds all meta and design for the current level
+    public LevelData CurrentLevelData { get; private set; }
 
     // Keeps track of the current level
     public int CurrentLevel { get; private set; } = 1;
@@ -20,7 +19,7 @@ public class LevelSystem
     public ScoreSystem ScoreSystem { get; private set; }
 
     // Keep track of if level is cleared from breakable blocks
-    public bool IsLevelCleared => Blocks.Where(b => b.Type != BlockType.Unbreakable).All(b => b.IsDestroyed);
+    public bool IsLevelCleared => CurrentLevelData.Blocks.Where(b => b.Type != BlockType.Unbreakable).All(b => b.IsDestroyed);
 
     public LevelSystem(LifeSystem lifeSystem, ScoreSystem scoreSystem)
     {
@@ -31,7 +30,7 @@ public class LevelSystem
 
     public void LoadLevel(string level)
     {
-        Blocks = LevelLoader.Load(level);
+        CurrentLevelData = LevelLoader.Load(level);
     }
 
     public void HandleLevelComplete()
@@ -71,7 +70,7 @@ public class LevelSystem
 
         // Check for destroyed blocks and update the score
         // TODO: Move this to HandleScore
-        foreach (var block in Blocks)
+        foreach (var block in CurrentLevelData.Blocks)
         {
             if (block.IsDestroyed)
             {
@@ -80,7 +79,7 @@ public class LevelSystem
         }
 
         // Remove destroyed blocks
-        Blocks.RemoveAll(b => b.IsDestroyed);
+        CurrentLevelData.Blocks.RemoveAll(b => b.IsDestroyed);
 
         if (IsLevelCleared)
         {
@@ -92,7 +91,7 @@ public class LevelSystem
     public void Draw(SpriteBatch spriteBatch, Texture2D pixel)
     {
         // Iterate all blocks
-        foreach (var block in Blocks)
+        foreach (var block in CurrentLevelData.Blocks)
         {
             // Draw the block
             block.Draw(spriteBatch, pixel);

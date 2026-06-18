@@ -3,16 +3,17 @@ using System.IO;
 using System.Text.Json;
 using brickbuster.Entities.Blocks;
 using brickbuster.Models;
+using brickbuster.Models.Json;
 
 public static class LevelLoader
 {
-    public static List<BlockBase> Load(string levelId)
+    public static LevelData Load(string levelId)
     {
         var blocks = new List<BlockBase>();
 
         // Read level data from file
         var json = File.ReadAllText($"GameData/Levels/level{levelId}.json");
-        var data = JsonSerializer.Deserialize<LevelData>(json, JsonConfig.JsonOptions);
+        var data = JsonSerializer.Deserialize<LevelDefinition>(json, JsonConfig.JsonOptions);
 
         for (int row = 0; row < data.Grid.Length; row++)
         {
@@ -47,6 +48,13 @@ public static class LevelLoader
                 }
             }
         }
-        return blocks;
+        
+        return new LevelData
+        {
+            Name = data.Name,
+            Music = data.Music,
+            Background = data.Background,
+            Blocks = blocks
+        };
     }
 }
