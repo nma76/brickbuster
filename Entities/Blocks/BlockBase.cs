@@ -13,8 +13,16 @@ public class BlockBase
     public bool IsDestroyed => !IsUnbreakable && HitPoints <= 0;
     public bool IsUnbreakable { get; private set; }
     public PowerUpType PowerUp { get; set; }
+    public BlockType Type { get; private set; }
 
-    public BlockBase(int x, int y, Color color, int hitPoints = 1, int scoreValue = 100, bool isUnbreakable = false, PowerUpType powerUp = PowerUpType.None)
+    public enum BlockType
+    {
+        Standard,
+        Hard,
+        Unbreakable
+    }
+
+    public BlockBase(int x, int y, Color color, int hitPoints, int scoreValue, bool isUnbreakable, PowerUpType powerUp, BlockType type)
     {
         Rect = new Rectangle(x, y, GameConstants.BlockWidth, GameConstants.BlockHeight);
         Color = color;
@@ -22,6 +30,7 @@ public class BlockBase
         ScoreValue = scoreValue;
         IsUnbreakable = isUnbreakable;
         PowerUp = powerUp;
+        Type = type;
     }
 
     public void Hit()
