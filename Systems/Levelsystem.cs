@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using brickbuster.Entities;
 using brickbuster.Models;
@@ -18,6 +19,8 @@ public class LevelSystem
     public LifeSystem LifeSystem { get; private set; }
     public ScoreSystem ScoreSystem { get; private set; }
 
+    public event Action<LevelData> OnLevelChanged;
+
     // Keep track of if level is cleared from breakable blocks
     public bool IsLevelCleared => CurrentLevelData.Blocks.Where(b => b.Type != BlockType.Unbreakable).All(b => b.IsDestroyed);
 
@@ -31,6 +34,7 @@ public class LevelSystem
     public void LoadLevel(string level)
     {
         CurrentLevelData = LevelLoader.Load(level);
+        OnLevelChanged?.Invoke(CurrentLevelData);
     }
 
     public void HandleLevelComplete()

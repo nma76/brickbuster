@@ -6,3 +6,9 @@ Game Over‑flöde
 UI för liv, score, level
 Ljud (ping, pong, explosion)
 Sedan grafik
+
+
+
+
+
+ 1200x720 chocolate-and-candy themed background with a 10px chocolate-drip frame on the top, left and right edges. Caramel swirls, chocolate rivers, candy sprinkles, marshmallows. Warm lighting. Center area must be clean for gameplay.

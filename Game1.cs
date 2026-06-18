@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using brickbuster.Entities;
 using brickbuster.Systems;
+using brickbuster.Models;
 
 namespace brickbuster;
 
@@ -14,6 +15,9 @@ public class Game1 : Game
     // Create a pixel texture for drawing rectangles
     private Texture2D _pixel;
 
+    // Handles the backgrounds
+    private BackgroundSystem _backgroundSystem;
+
     // The level system that manages the blocks in the game
     private LevelSystem _levelSystem;
 
@@ -22,9 +26,6 @@ public class Game1 : Game
 
     // Handles the score
     private ScoreSystem _scoreSystem;
-
-    // Boundary of the game world
-    private Boundary _boundary;
 
     // The player's paddle
     private Paddle _paddle;
@@ -39,12 +40,21 @@ public class Game1 : Game
         IsMouseVisible = true;
     }
 
+    private void HandleLevelChanged(LevelData levelData)
+    {
+        var backgroundTexture = Content.Load<Texture2D>($"Backgrounds/{levelData.Background}");
+        _backgroundSystem.LoadBackground(backgroundTexture);
+    }
+
     protected override void Initialize()
     {
         // Set the window size
         _graphics.PreferredBackBufferWidth = 1200;
         _graphics.PreferredBackBufferHeight = 720;
         _graphics.ApplyChanges();
+
+        // Initialize background system
+        _backgroundSystem = new BackgroundSystem(GraphicsDevice);
 
         // Initialize life system to handle player lifes
         _lifeSystem = new LifeSystem();
@@ -54,10 +64,7 @@ public class Game1 : Game
 
         // Initialize the level system and create some blocks for testing
         _levelSystem = new LevelSystem(_lifeSystem, _scoreSystem);
-
-        // Initialize the boundary with a thickness of 10 pixels
-        int thickness = 10;
-        _boundary = new Boundary(GraphicsDevice.Viewport, thickness);
+        _levelSystem.OnLevelChanged += HandleLevelChanged;
 
         // Initialize the player's paddle
         _paddle = new Paddle(GraphicsDevice.Viewport);
@@ -71,12 +78,14 @@ public class Game1 : Game
 
     protected override void LoadContent()
     {
-        // Create a 1x1 white texture for drawing rectangles
+        // Create a 1x1 white texture for drawing
         _pixel = new Texture2D(GraphicsDevice, 1, 1);
         _pixel.SetData([Color.White]);
 
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        // TODO: use this.Content to load your game content here
+        
+        var backgroundTexture = Content.Load<Texture2D>("Backgrounds/0001");
+        _backgroundSystem.LoadBackground(backgroundTexture);
     }
 
     protected override void Update(GameTime gameTime)
@@ -99,7 +108,7 @@ public class Game1 : Game
             // Update the ball's position
             _ball.Update(gameTime);
             // Check for collisions with the walls and bounce the ball if necessary
-            _ball.HandleWallCollision(GraphicsDevice.Viewport);
+            _ball.HandleWallCollision(GraphicsDevice.Viewport, 40);
             // Check for collision with the paddle and bounce the ball if necessary
             _ball.HandlePaddleCollision(_paddle.Rect);
             // Check for collision with the blocks and bounce the ball if necessary
@@ -120,8 +129,11 @@ public class Game1 : Game
         // Begin drawing
         _spriteBatch.Begin();
 
+        // Draw background
+        _backgroundSystem.Draw(_spriteBatch);
+
         // Draw the walls
-        _boundary.Draw(_spriteBatch, _pixel);
+        //_boundary.Draw(_spriteBatch, _pixel);
 
         // Draw the paddle
         _paddle.Draw(_spriteBatch, _pixel);
@@ -133,10 +145,10 @@ public class Game1 : Game
         _levelSystem.Draw(_spriteBatch, _pixel);
 
         // show current score
-        _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Score: {_scoreSystem.Score}", new Vector2(10, 10), Color.White);
+        _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Score: {_scoreSystem.Score}", new Vector2(150, 5), Color.White);
 
         // Show current lifes
-        _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Lifes: {_lifeSystem.Lifes}", new Vector2(250, 10), Color.White);
+        _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Lifes: {_lifeSystem.Lifes}", new Vector2(50, 5), Color.White);
 
         _spriteBatch.End();
         base.Draw(gameTime);
