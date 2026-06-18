@@ -5,3 +5,10 @@ public enum PowerUpType
     ShrinkPaddle,
     ExtraLife
 }
+
+public enum BlockType
+{
+    Standard,
+    Hard,
+    Unbreakable
+}

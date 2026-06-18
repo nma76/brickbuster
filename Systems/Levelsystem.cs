@@ -73,7 +73,7 @@ public class LevelSystem
                 if (block != null)
                 {
                     // If block isn't unbreakable, it can hold a power-up
-                    if (!block.IsUnbreakable)
+                    if (block.Type != BlockType.Unbreakable)
                     {
                         block.PowerUp = RandomizePowerUp();
                     }

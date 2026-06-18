@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,32 +9,23 @@ public class BlockBase
     public int HitPoints { get; private set; }
     public Color Color { get; private set; }
     public int ScoreValue { get; private set; }
-    public bool IsDestroyed => !IsUnbreakable && HitPoints <= 0;
-    public bool IsUnbreakable { get; private set; }
+    public bool IsDestroyed => Type != BlockType.Unbreakable && HitPoints <= 0;
     public PowerUpType PowerUp { get; set; }
     public BlockType Type { get; private set; }
 
-    public enum BlockType
-    {
-        Standard,
-        Hard,
-        Unbreakable
-    }
-
-    public BlockBase(int x, int y, Color color, int hitPoints, int scoreValue, bool isUnbreakable, PowerUpType powerUp, BlockType type)
+    public BlockBase(int x, int y, Color color, int hitPoints, int scoreValue, PowerUpType powerUp, BlockType type)
     {
         Rect = new Rectangle(x, y, GameConstants.BlockWidth, GameConstants.BlockHeight);
         Color = color;
         HitPoints = hitPoints;
         ScoreValue = scoreValue;
-        IsUnbreakable = isUnbreakable;
         PowerUp = powerUp;
         Type = type;
     }
 
     public void Hit()
     {
-        if (!IsUnbreakable)
+        if (Type != BlockType.Unbreakable)
         {
             HitPoints--;
         }
