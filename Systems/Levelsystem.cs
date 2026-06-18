@@ -35,46 +35,7 @@ public class LevelSystem
 
     public void LoadLevel(string level)
     {
-        // Read level data from file
-        var json = File.ReadAllText($"GameData/Levels/level{level}.json");
-        var data = JsonSerializer.Deserialize<LevelData>(json, JsonConfig.JsonOptions);
-
-        // Clear blocks
-        Blocks.Clear();
-
-        for (int row = 0; row < data.Grid.Length; row++)
-        {
-            for (int col = 0; col < data.Grid[row].Length; col++)
-            {
-                // Get symbol of current position in JSON
-                char symbol = data.Grid[row][col];
-
-                // If symbol is . then do nothing
-                if (symbol == '.')
-                {
-                    continue;
-                }
-
-                // Get position of the block
-                int x = GameConstants.GridStartX + col * (GameConstants.BlockWidth + GameConstants.BlockSpacingX);
-                int y = GameConstants.GridStartY + row * (GameConstants.BlockHeight + GameConstants.BlockSpacingY);
-
-                // check data for block type
-                var block = BlockFactory.Create(symbol, x, y);
-
-                if (block != null)
-                {
-                    // If block isn't unbreakable, it can hold a power-up
-                    if (block.Type != BlockType.Unbreakable)
-                    {
-                        block.PowerUp = PowerUpRandomizer.Roll();
-                    }
-
-                    // Add block
-                    Blocks.Add(block);
-                }
-            }
-        }
+        Blocks = LevelLoader.Load(level);
     }
 
     public void HandleLevelComplete()
