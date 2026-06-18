@@ -28,7 +28,7 @@ public class LevelSystem
     {
         LifeSystem = lifeSystem;
         ScoreSystem = scoreSystem;
-        LoadLevel("0001");
+        LoadLevel(CurrentLevel.ToString("0000"));
     }
 
     public void LoadLevel(string level)

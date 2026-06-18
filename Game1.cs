@@ -132,9 +132,6 @@ public class Game1 : Game
         // Draw background
         _backgroundSystem.Draw(_spriteBatch);
 
-        // Draw the walls
-        //_boundary.Draw(_spriteBatch, _pixel);
-
         // Draw the paddle
         _paddle.Draw(_spriteBatch, _pixel);
 

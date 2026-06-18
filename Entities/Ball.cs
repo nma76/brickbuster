@@ -16,6 +16,8 @@ public class Ball
     // Indicates whether the ball has been launched or is still waiting on the paddle
     public bool IsLaunched { get; private set; } = false;
 
+    private float _deltaTime;
+
     public Ball(Viewport viewport)
     {
         // Set the ball's radius
@@ -107,58 +109,103 @@ public class Ball
 
     public void HandleBlockCollision(List<BlockBase> blocks)
     {
-        Rectangle ballRect = new Rectangle(
-            (int)(Position.X - Radius),
-            (int)(Position.Y - Radius),
-            (int)(Radius * 2),
-            (int)(Radius * 2)
-        );
+        float earliest = 1f;
+        BlockBase hitBlock = null;
+        Vector2 hitNormal = Vector2.Zero;
 
+        // 1. Hitta tidigaste kollisionen
         foreach (var block in blocks)
         {
             if (block.IsDestroyed)
                 continue;
 
-            if (!ballRect.Intersects(block.Rect))
-                continue;
+            float t = SweptAABB(block.Rect, out Vector2 normal);
 
-            // Skada blocket
-            block.Hit();
-
-            // Beräkna överlappning i X och Y
-            float overlapLeft = (ballRect.Right - block.Rect.Left);
-            float overlapRight = (block.Rect.Right - ballRect.Left);
-            float overlapTop = (ballRect.Bottom - block.Rect.Top);
-            float overlapBottom = (block.Rect.Bottom - ballRect.Top);
-
-            // Ta minsta överlappningen → avgör kollisionens riktning
-            float minOverlapX = Math.Min(overlapLeft, overlapRight);
-            float minOverlapY = Math.Min(overlapTop, overlapBottom);
-
-            if (minOverlapX < minOverlapY)
+            if (t < earliest)
             {
-                // SIDOKOLLISION → invertera X
-                Velocity.X *= -1;
-
-                if (overlapLeft < overlapRight)
-                    Position.X = block.Rect.Left - Radius;
-                else
-                    Position.X = block.Rect.Right + Radius;
+                earliest = t;
+                hitBlock = block;
+                hitNormal = normal;
             }
-            else
-            {
-                // TOPP/BOTTEN → invertera Y
-                Velocity.Y *= -1;
-
-                if (overlapTop < overlapBottom)
-                    Position.Y = block.Rect.Top - Radius;
-                else
-                    Position.Y = block.Rect.Bottom + Radius;
-            }
-
-            break; // Endast en kollision per frame
         }
+
+        // Ingen kollision denna frame
+        if (hitBlock == null)
+            return;
+
+        // 2. Flytta bollen till kollisionstidpunkten
+        Position += Velocity * _deltaTime * earliest;
+
+        // 3. Reflektera hastigheten
+        Velocity = Vector2.Reflect(Velocity, hitNormal);
+
+        // 4. Skada blocket
+        hitBlock.Hit();
+
+        // 5. Flytta resterande del av rörelsen efter studsen
+        float remaining = 1f - earliest;
+        Position += Velocity * _deltaTime * remaining;
     }
+
+    private float SweptAABB(Rectangle block, out Vector2 normal)
+    {
+        normal = Vector2.Zero;
+
+        // Bollens rörelse denna frame
+        Vector2 vel = Velocity * _deltaTime;
+
+        // Utökad AABB (blocket expanderas med bollens diameter)
+        float expandedLeft = block.Left - Radius * 2;
+        float expandedRight = block.Right;
+        float expandedTop = block.Top - Radius * 2;
+        float expandedBottom = block.Bottom;
+
+        // Start- och slutposition
+        Vector2 start = new(Position.X - Radius, Position.Y - Radius);
+        Vector2 end = start + vel;
+
+        // Ray vs AABB
+        float tEntryX, tEntryY;
+        float tExitX, tExitY;
+
+        if (vel.X > 0)
+        {
+            tEntryX = (expandedLeft - start.X) / vel.X;
+            tExitX = (expandedRight - start.X) / vel.X;
+        }
+        else
+        {
+            tEntryX = (expandedRight - start.X) / vel.X;
+            tExitX = (expandedLeft - start.X) / vel.X;
+        }
+
+        if (vel.Y > 0)
+        {
+            tEntryY = (expandedTop - start.Y) / vel.Y;
+            tExitY = (expandedBottom - start.Y) / vel.Y;
+        }
+        else
+        {
+            tEntryY = (expandedBottom - start.Y) / vel.Y;
+            tExitY = (expandedTop - start.Y) / vel.Y;
+        }
+
+        float tEntry = Math.Max(tEntryX, tEntryY);
+        float tExit = Math.Min(tExitX, tExitY);
+
+        // Ingen kollision
+        if (tEntry > tExit || tEntry < 0f || tEntry > 1f)
+            return 1f;
+
+        // Bestäm normal
+        if (tEntryX > tEntryY)
+            normal = new Vector2(vel.X > 0 ? -1 : 1, 0);
+        else
+            normal = new Vector2(0, vel.Y > 0 ? -1 : 1);
+
+        return tEntry;
+    }
+
 
 
     public bool IsOutOfBounds(Viewport viewport)
@@ -182,8 +229,8 @@ public class Ball
         }
 
         // Move the ball based on its velocity and the elapsed time since the last update
-        float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        Position += Velocity * deltaTime;
+        _deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        Position += Velocity * _deltaTime;
     }
 
     public void Draw(SpriteBatch spriteBatch, Texture2D pixel)
