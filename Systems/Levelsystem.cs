@@ -16,16 +16,20 @@ public class LevelSystem
     // List of blocks in the current level
     public List<BlockBase> Blocks { get; private set; } = [];
 
-    // Player's current score, lifes and current level
-    public int Score { get; private set; } = 0;
-    public int Lifes { get; private set; } = GameConstants.PlayerLifes;
+    // Keeps track of the current level
     public int CurrentLevel { get; private set; } = 1;
+
+    // Holds instances of sub-systems
+    public LifeSystem LifeSystem { get; private set; }
+    public ScoreSystem ScoreSystem { get; private set; }
 
     // Keep track of if level is cleared from breakable blocks
     public bool IsLevelCleared => Blocks.Where(b => b.Type != BlockType.Unbreakable).All(b => b.IsDestroyed);
 
-    public LevelSystem()
+    public LevelSystem(LifeSystem lifeSystem, ScoreSystem scoreSystem)
     {
+        LifeSystem = lifeSystem;
+        ScoreSystem = scoreSystem;
         LoadLevel("0001");
     }
 
@@ -57,7 +61,7 @@ public class LevelSystem
 
                 // check data for block type
                 var block = BlockFactory.Create(symbol, x, y);
-            
+
                 if (block != null)
                 {
                     // If block isn't unbreakable, it can hold a power-up
@@ -88,20 +92,10 @@ public class LevelSystem
         return false;
     }
 
-    private void HandleLifes()
-    {
-        Lifes--;
-
-        if (Lifes <= 0)
-        {
-            HandleGameOver();
-        }
-    }
-
     private void HandleGameOver()
     {
-        Score = 0;
-        Lifes = GameConstants.PlayerLifes;
+        ScoreSystem.Reset();
+        LifeSystem.Reset();
         CurrentLevel = 1;
         LoadLevel(CurrentLevel.ToString("0000"));
     }
@@ -110,7 +104,11 @@ public class LevelSystem
     {
         if (HandleBallOutOfBounds(ball, paddle, viewport))
         {
-            HandleLifes();
+            if (LifeSystem.LoseLife())
+            {
+                HandleGameOver();
+            }
+
             ball.AttachToPaddle(paddle.Rect);
         }
 
@@ -120,14 +118,14 @@ public class LevelSystem
         {
             if (block.IsDestroyed)
             {
-                Score += block.ScoreValue;
+                ScoreSystem.Add(block.ScoreValue);
             }
         }
 
         // Remove destroyed blocks
         Blocks.RemoveAll(b => b.IsDestroyed);
 
-        if(IsLevelCleared)
+        if (IsLevelCleared)
         {
             HandleLevelComplete();
             ball.AttachToPaddle(paddle.Rect);

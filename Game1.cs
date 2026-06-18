@@ -17,6 +17,12 @@ public class Game1 : Game
     // The level system that manages the blocks in the game
     private LevelSystem _levelSystem;
 
+    // LifeSystem handles lifes
+    private LifeSystem _lifeSystem;
+
+    // Handles the score
+    private ScoreSystem _scoreSystem;
+
     // Boundary of the game world
     private Boundary _boundary;
 
@@ -40,8 +46,14 @@ public class Game1 : Game
         _graphics.PreferredBackBufferHeight = 720;
         _graphics.ApplyChanges();
 
+        // Initialize life system to handle player lifes
+        _lifeSystem = new LifeSystem();
+
+        // Initalize score system to keep track of score
+        _scoreSystem = new ScoreSystem();
+
         // Initialize the level system and create some blocks for testing
-        _levelSystem = new LevelSystem();
+        _levelSystem = new LevelSystem(_lifeSystem, _scoreSystem);
 
         // Initialize the boundary with a thickness of 10 pixels
         int thickness = 10;
@@ -121,10 +133,10 @@ public class Game1 : Game
         _levelSystem.Draw(_spriteBatch, _pixel);
 
         // show current score
-        _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Score: {_levelSystem.Score}", new Vector2(10, 10), Color.White);
+        _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Score: {_scoreSystem.Score}", new Vector2(10, 10), Color.White);
 
         // Show current lifes
-        _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Lifes: {_levelSystem.Lifes}", new Vector2(250, 10), Color.White);
+        _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Lifes: {_lifeSystem.Lifes}", new Vector2(250, 10), Color.White);
 
         _spriteBatch.End();
         base.Draw(gameTime);
