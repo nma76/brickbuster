@@ -1,7 +1,8 @@
 {
-    "name": "Level 1",
+    "name": "Level 2",
     "music": "brickbuster.ogg",
     "background": "generic1",
+    "isFinal": false,
     "grid": [
         "SSSSSSSSSSSS",
         "SSHHSSHHSSHH",

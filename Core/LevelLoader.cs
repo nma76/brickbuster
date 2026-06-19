@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using brickbuster.Config;
 using brickbuster.Entities.Blocks;
 using brickbuster.Models;
 using brickbuster.Models.Json;
+
+namespace brickbuster.Core;
 
 public static class LevelLoader
 {
@@ -54,6 +57,7 @@ public static class LevelLoader
             Name = data.Name,
             Music = data.Music,
             Background = data.Background,
+            IsFinal = data.IsFinal,
             Blocks = blocks
         };
     }

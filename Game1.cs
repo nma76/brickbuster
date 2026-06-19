@@ -46,6 +46,12 @@ public class Game1 : Game
         _backgroundSystem.LoadBackground(backgroundTexture);
     }
 
+    private void HandleGameCompleted(bool completed)
+    {
+        var x = "";
+        Exit();
+    }
+
     protected override void Initialize()
     {
         // Set the window size
@@ -65,6 +71,7 @@ public class Game1 : Game
         // Initialize the level system and create some blocks for testing
         _levelSystem = new LevelSystem(_lifeSystem, _scoreSystem);
         _levelSystem.OnLevelChanged += HandleLevelChanged;
+        _levelSystem.OnGameCompleted += HandleGameCompleted;
 
         // Initialize the player's paddle
         _paddle = new Paddle(GraphicsDevice.Viewport);
@@ -73,7 +80,7 @@ public class Game1 : Game
         _ball = new Ball(GraphicsDevice.Viewport);
         _ball.AttachToPaddle(_paddle.Rect);
 
-        base.Initialize();
+        base.Initialize(); 
     }
 
     protected override void LoadContent()

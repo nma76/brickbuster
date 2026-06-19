@@ -1,3 +1,5 @@
+namespace brickbuster.Config;
+
 public static class GameConstants
 {
     public const bool Debug = true;

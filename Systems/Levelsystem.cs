@@ -1,9 +1,12 @@
 using System;
 using System.Linq;
+using brickbuster.Config;
+using brickbuster.Core;
 using brickbuster.Entities;
 using brickbuster.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace brickbuster.Systems;
 
@@ -20,6 +23,7 @@ public class LevelSystem
     public ScoreSystem ScoreSystem { get; private set; }
 
     public event Action<LevelData> OnLevelChanged;
+    public event Action<bool> OnGameCompleted;
 
     // Keep track of if level is cleared from breakable blocks
     public bool IsLevelCleared => CurrentLevelData.Blocks.Where(b => b.Type != BlockType.Unbreakable).All(b => b.IsDestroyed);
@@ -39,6 +43,11 @@ public class LevelSystem
 
     public void HandleLevelComplete()
     {
+        if(CurrentLevelData.IsFinal)
+        {
+            HandleGameCompleted();
+        }
+
         CurrentLevel++;
         LoadLevel(CurrentLevel.ToString("0000"));
     }
@@ -58,6 +67,11 @@ public class LevelSystem
         LifeSystem.Reset();
         CurrentLevel = 1;
         LoadLevel(CurrentLevel.ToString("0000"));
+    }
+
+    private void HandleGameCompleted()
+    {
+        OnGameCompleted?.Invoke(true);
     }
 
     public void Update(Ball ball, Paddle paddle, Viewport viewport)

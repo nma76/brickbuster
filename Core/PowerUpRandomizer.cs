@@ -1,4 +1,7 @@
 using System;
+using brickbuster.Config;
+
+namespace brickbuster.Core;
 
 public static class PowerUpRandomizer
 {

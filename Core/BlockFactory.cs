@@ -1,6 +1,8 @@
 using brickbuster.Entities.Blocks;
 using Microsoft.Xna.Framework;
 
+namespace brickbuster.Core;
+
 public static class BlockFactory
 {
     public static BlockBase Create(char symbol, int x, int y)

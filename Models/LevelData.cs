@@ -8,5 +8,6 @@ public class LevelData
     public string Name { get; set; }
     public string Music { get; set; }
     public string Background { get; set; }
+    public bool IsFinal { get; set; }
     public List<BlockBase> Blocks { get; set; }
 }

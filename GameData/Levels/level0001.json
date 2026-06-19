@@ -2,6 +2,7 @@
     "name": "Level 1 - The beginning",
     "music": "brickbuster.ogg",
     "background": "0001",
+    "isFinal": true,
     "grid": [
         "............",
         "............",

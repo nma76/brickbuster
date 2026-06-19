@@ -1,3 +1,5 @@
+namespace brickbuster.Config;
+
 public enum PowerUpType
 {
     None,

@@ -1,3 +1,7 @@
+using brickbuster.Config;
+
+namespace brickbuster.Systems;
+
 public class LifeSystem
 {
     public int Lifes { get; private set; } = GameConstants.PlayerLifes;

@@ -1,3 +1,4 @@
+using brickbuster.Config;
 using Microsoft.Xna.Framework;
 
 namespace brickbuster.Entities.Blocks;

@@ -1,3 +1,5 @@
+namespace brickbuster.Systems;
+
 public class ScoreSystem
 {
     public int Score { get; private set; }
