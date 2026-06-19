@@ -10,5 +10,40 @@ Sedan grafik
 
 
 
+Boss 1 – Neon Candy
+snabbare boll
+specialblock
+powerups
+neonljus som blinkar
 
- 1200x720 chocolate-and-candy themed background with a 10px chocolate-drip frame on the top, left and right edges. Caramel swirls, chocolate rivers, candy sprinkles, marshmallows. Warm lighting. Center area must be clean for gameplay.
+🍫 Boss 2 – Chocolate Kingdom
+tyngre block
+chokladfloder som rör sig
+“smältande” block
+ 
+
+
+
+Level 1 – Intro
+Bakgrund: Candy Dreamscape
+Musik: mjuk, lekfull
+Block: enkla
+
+Level 2–10 – Vanliga banor
+Bakgrund: generisk
+Musik: neutral
+Block: progression i svårighet
+
+Level 11 – Boss 1 (Neon Candy)
+Bakgrund: neon
+Musik: mer intensiv
+Block: specialmönster
+
+Level 12–20 – Vanliga banor
+Bakgrund: generisk
+Block: svårare
+
+Level 21 – Boss 2 (Chocolate Kingdom)
+Bakgrund: choklad
+Musik: varm, tung
+Block: tuffare
