@@ -18,6 +18,9 @@ public class Game1 : Game
     // Handles the backgrounds
     private BackgroundSystem _backgroundSystem;
 
+    // Handles music and sfx
+    private AudioSystem _audioSystem;
+
     // The level system that manages the blocks in the game
     private LevelSystem _levelSystem;
 
@@ -48,19 +51,21 @@ public class Game1 : Game
 
     private void HandleGameCompleted(bool completed)
     {
-        var x = "";
         Exit();
     }
 
     protected override void Initialize()
     {
         // Set the window size
-        _graphics.PreferredBackBufferWidth = 1200;
+        _graphics.PreferredBackBufferWidth = 1200;  
         _graphics.PreferredBackBufferHeight = 720;
         _graphics.ApplyChanges();
 
         // Initialize background system
         _backgroundSystem = new BackgroundSystem(GraphicsDevice);
+
+        // Initialize audio system
+        _audioSystem = new AudioSystem(Content);
 
         // Initialize life system to handle player lifes
         _lifeSystem = new LifeSystem();
@@ -69,7 +74,7 @@ public class Game1 : Game
         _scoreSystem = new ScoreSystem();
 
         // Initialize the level system and create some blocks for testing
-        _levelSystem = new LevelSystem(_lifeSystem, _scoreSystem);
+        _levelSystem = new LevelSystem(_lifeSystem, _scoreSystem, _audioSystem);
         _levelSystem.OnLevelChanged += HandleLevelChanged;
         _levelSystem.OnGameCompleted += HandleGameCompleted;
 
@@ -77,7 +82,7 @@ public class Game1 : Game
         _paddle = new Paddle(GraphicsDevice.Viewport);
 
         // Initialize the ball
-        _ball = new Ball(GraphicsDevice.Viewport);
+        _ball = new Ball(GraphicsDevice.Viewport, _audioSystem);
         _ball.AttachToPaddle(_paddle.Rect);
 
         base.Initialize(); 

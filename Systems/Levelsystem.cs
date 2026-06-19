@@ -21,6 +21,7 @@ public class LevelSystem
     // Holds instances of sub-systems
     public LifeSystem LifeSystem { get; private set; }
     public ScoreSystem ScoreSystem { get; private set; }
+    public AudioSystem AudioSystem { get; private set; }
 
     public event Action<LevelData> OnLevelChanged;
     public event Action<bool> OnGameCompleted;
@@ -28,10 +29,12 @@ public class LevelSystem
     // Keep track of if level is cleared from breakable blocks
     public bool IsLevelCleared => CurrentLevelData.Blocks.Where(b => b.Type != BlockType.Unbreakable).All(b => b.IsDestroyed);
 
-    public LevelSystem(LifeSystem lifeSystem, ScoreSystem scoreSystem)
+    public LevelSystem(LifeSystem lifeSystem, ScoreSystem scoreSystem, AudioSystem audioSystem)
     {
         LifeSystem = lifeSystem;
         ScoreSystem = scoreSystem;
+        AudioSystem = audioSystem;
+        
         LoadLevel(CurrentLevel.ToString("0000"));
     }
 
@@ -43,7 +46,7 @@ public class LevelSystem
 
     public void HandleLevelComplete()
     {
-        if(CurrentLevelData.IsFinal)
+        if (CurrentLevelData.IsFinal)
         {
             HandleGameCompleted();
         }

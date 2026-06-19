@@ -12,4 +12,5 @@ public static class GameConstants
     public const int GridStartX = 115;
     public const int GridStartY = 60;
     public const double PowerUpchance = 0.10;
+    public static float SfxVolume = 0.5f;
 }

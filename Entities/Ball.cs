@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using brickbuster.Entities.Blocks;
 using System.Collections.Generic;
 using System;
+using brickbuster.Systems;
 
 namespace brickbuster.Entities;
 
@@ -13,13 +14,17 @@ public class Ball
     public Vector2 Velocity;
     public float Radius;
 
+    public AudioSystem AudioSystem { get; private set; }
+
     // Indicates whether the ball has been launched or is still waiting on the paddle
     public bool IsLaunched { get; private set; } = false;
 
     private float _deltaTime;
 
-    public Ball(Viewport viewport)
+    public Ball(Viewport viewport, AudioSystem audioSystem)
     {
+        AudioSystem = audioSystem;
+
         // Set the ball's radius
         Radius = 8f;
 
@@ -60,6 +65,7 @@ public class Ball
         {
             Position.X = wallThickness + Radius;
             Velocity.X *= -1;
+            AudioSystem.PlayWallHit();
         }
 
         // Check for collision with the right wall
@@ -67,6 +73,7 @@ public class Ball
         {
             Position.X = viewport.Width - wallThickness - Radius;
             Velocity.X *= -1;
+            AudioSystem.PlayWallHit();
         }
 
         // Check for collision with the top wall
@@ -74,6 +81,7 @@ public class Ball
         {
             Position.Y = wallThickness + Radius;
             Velocity.Y *= -1;
+            AudioSystem.PlayWallHit();
         }
     }
 
@@ -132,6 +140,9 @@ public class Ball
         // Ingen kollision denna frame
         if (hitBlock == null)
             return;
+
+        // Play sound if block is hit
+        AudioSystem.PlayBlockHit();
 
         // 2. Flytta bollen till kollisionstidpunkten
         Position += Velocity * _deltaTime * earliest;

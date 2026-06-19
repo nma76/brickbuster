@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Audio/blockhit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/blockhit.wav
+
 #begin Backgrounds/0001.png
 /importer:TextureImporter
 /processor:TextureProcessor
