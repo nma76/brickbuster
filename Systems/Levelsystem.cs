@@ -52,33 +52,20 @@ public class LevelSystem
         OnLevelChanged?.Invoke(CurrentLevelData);
     }
 
-    public void HandleLevelComplete()
+    public void HandleBallOutOfBounds(Ball ball, Paddle paddle, Viewport viewport)
     {
-        // Add bonus based on padle hits (fewer is better)
-        ScoreSystem.AddBonus(_paddleHits);
-        _paddleHits = 0;
-
-        // If this was the last level, handle game completed
-        if (CurrentLevelData.IsFinal)
+        if (!ball.IsOutOfBounds(viewport))
         {
-            HandleGameCompleted();
             return;
         }
 
-        // Load the next level
-        CurrentLevel++;
-        LoadLevel(CurrentLevel.ToString("0000"));
-    }
-
-    public bool HandleBallOutOfBounds(Ball ball, Viewport viewport)
-    {
-        if (ball.IsOutOfBounds(viewport))
+        if (LifeSystem.LoseLife())
         {
-            return true;
+            HandleGameOver();
         }
-        return false;
-    }
 
+        ball.AttachToPaddle(paddle.Rect);
+    }
     public void RegisterPaddleHit()
     {
         _paddleHits++;
@@ -91,26 +78,12 @@ public class LevelSystem
         CurrentLevel = 1;
         LoadLevel(CurrentLevel.ToString("0000"));
     }
-
     private void HandleGameCompleted()
     {
         OnGameCompleted?.Invoke(true);
     }
-
-    public void Update(GameTime gameTime, Ball ball, Paddle paddle, Viewport viewport)
+    private void HandleBlocks(Ball ball)
     {
-        if (HandleBallOutOfBounds(ball, viewport))
-        {
-            if (LifeSystem.LoseLife())
-            {
-                HandleGameOver();
-            }
-
-            ball.AttachToPaddle(paddle.Rect);
-        }
-
-        // Check for destroyed blocks and update the score
-        // TODO: Refactor this!!
         foreach (var block in CurrentLevelData.Blocks)
         {
             if (block.IsDestroyed)
@@ -124,6 +97,11 @@ public class LevelSystem
             }
         }
 
+        // Remove destroyed blocks
+        CurrentLevelData.Blocks.RemoveAll(b => b.IsDestroyed);
+    }
+    private void HandlePowerUps(GameTime gameTime, Paddle paddle)
+    {
         // Update power-ups
         foreach (var powerUp in _activePowerUps)
         {
@@ -149,16 +127,41 @@ public class LevelSystem
             }
         }
         _activePowerUps.RemoveAll(_removePowerUps.Contains);
-
-
-        // Remove destroyed blocks
-        CurrentLevelData.Blocks.RemoveAll(b => b.IsDestroyed);
-
-        if (IsLevelCleared)
+    }
+    private void HandleLevelCompletion(Ball ball, Paddle paddle)
+    {
+        // If level i snot comleted, return early
+        if (!IsLevelCleared)
         {
-            HandleLevelComplete();
-            ball.AttachToPaddle(paddle.Rect);
+            return;
         }
+
+        // Add bonus based on paddle hits (fewer is better)
+        ScoreSystem.AddBonus(_paddleHits);
+        _paddleHits = 0;
+
+        // If this was the last level, handle game completed
+        if (CurrentLevelData.IsFinal)
+        {
+            HandleGameCompleted();
+            return;
+        }
+
+        // Load the next level
+        CurrentLevel++;
+        LoadLevel(CurrentLevel.ToString("0000"));
+
+        // Restore paddle width and attach ball to paddle
+        paddle.Restore();
+        ball.AttachToPaddle(paddle.Rect);
+    }
+
+    public void Update(GameTime gameTime, Ball ball, Paddle paddle, Viewport viewport)
+    {
+        HandleBallOutOfBounds(ball, paddle, viewport);
+        HandleBlocks(ball);
+        HandlePowerUps(gameTime, paddle);
+        HandleLevelCompletion(ball, paddle);
     }
 
     public void Draw(SpriteBatch spriteBatch, Texture2D pixel)

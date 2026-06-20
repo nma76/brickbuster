@@ -53,6 +53,11 @@ public class Paddle
         _width = Math.Max(_width - 20, GameConstants.PaddleMinWidth);
         UpdateRect();
     }
+    public void Restore()
+    {
+        _width = GameConstants.PaddleWidth;
+        UpdateRect();
+    }
 
     public void MoveTo(int mouseX)
     {
