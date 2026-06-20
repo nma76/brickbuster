@@ -131,9 +131,9 @@ public class Game1 : Game
         else
         {
             // Update the ball's position
-            _ball.Update(gameTime);
+            _ball.UpdateDeltaTime(gameTime);
             // Check for collisions with the walls and bounce the ball if necessary
-            _ball.HandleWallCollision(GraphicsDevice.Viewport, 40);
+            _ball.HandleWallCollision(GraphicsDevice.Viewport);
             // Check for collision with the paddle and bounce the ball if necessary
             _ball.HandlePaddleCollision(_paddle.Rect);
             // Check for collision with the blocks and bounce the ball if necessary

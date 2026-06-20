@@ -4,6 +4,7 @@ using brickbuster.Entities.Blocks;
 using System.Collections.Generic;
 using System;
 using brickbuster.Systems;
+using brickbuster.Config;
 
 namespace brickbuster.Entities;
 
@@ -33,9 +34,6 @@ public class Ball
 
         // Start the ball in the center of the screen
         Position = new Vector2(viewport.Width / 2f, viewport.Height / 2f);
-
-        // Give the ball an initial velocity
-        Velocity = new Vector2(350f, -350f);
     }
 
     public void AttachToPaddle(Rectangle paddleRect)
@@ -56,12 +54,12 @@ public class Ball
         if (!IsLaunched)
         {
             // Give the ball an initial velocity to start moving
-            Velocity = new Vector2(150f, -350f);
+            Velocity = new Vector2(GameConstants.InitialBallSpeedX, GameConstants.InitialBallSpeedY);
             IsLaunched = true;
         }
     }
 
-    public void HandleWallCollision(Viewport viewport, int wallThickness = 10)
+    public void HandleWallCollision(Viewport viewport, int wallThickness = GameConstants.BorderThickness)
     {
         // Check for collision with the left wall
         if (Position.X - Radius < wallThickness)
@@ -123,107 +121,136 @@ public class Ball
 
     public void HandleBlockCollision(List<BlockBase> blocks)
     {
-        float earliest = 1f;
-        BlockBase hitBlock = null;
-        Vector2 hitNormal = Vector2.Zero;
+        float remainingTime = 1f;
 
-        // 1. Hitta tidigaste kollisionen
-        foreach (var block in blocks)
+        const int MaxCollisionsPerFrame = 4;
+
+        for (int iteration = 0; iteration < MaxCollisionsPerFrame; iteration++)
         {
-            if (block.IsDestroyed)
-                continue;
+            float earliest = 1f;
+            BlockBase hitBlock = null;
+            Vector2 hitNormal = Vector2.Zero;
 
-            float t = SweptAABB(block.Rect, out Vector2 normal);
+            Vector2 velocityStep =
+                Velocity * _deltaTime * remainingTime;
 
-            if (t < earliest)
+            foreach (var block in blocks)
             {
-                earliest = t;
-                hitBlock = block;
-                hitNormal = normal;
+                if (block.IsDestroyed)
+                    continue;
+
+                float t = SweptAABB(
+                    block.Rect,
+                    velocityStep,
+                    out Vector2 normal);
+
+                if (t < earliest)
+                {
+                    earliest = t;
+                    hitBlock = block;
+                    hitNormal = normal;
+                }
             }
+
+            // Ingen mer träff denna frame
+            if (hitBlock == null)
+            {
+                Position += velocityStep;
+                return;
+            }
+
+            // Flytta fram till träffen
+            Position += velocityStep * earliest;
+
+            AudioSystem.PlayBlockHit();
+
+            hitBlock.Hit();
+
+            Velocity = Vector2.Reflect(Velocity, hitNormal);
+
+            // Litet offset för att undvika att fastna exakt på kanten
+            const float Epsilon = 0.01f;
+            Position += hitNormal * Epsilon;
+
+            remainingTime *= (1f - earliest);
+
+            if (remainingTime < 0.0001f)
+                return;
         }
 
-        // Ingen kollision denna frame
-        if (hitBlock == null)
-            return;
-
-        // Play sound if block is hit
-        AudioSystem.PlayBlockHit();
-
-        // 2. Flytta bollen till kollisionstidpunkten
-        Position += Velocity * _deltaTime * earliest;
-
-        // 3. Reflektera hastigheten
-        Velocity = Vector2.Reflect(Velocity, hitNormal);
-
-        // 4. Skada blocket
-        hitBlock.Hit();
-
-        // 5. Flytta resterande del av rörelsen efter studsen
-        float remaining = 1f - earliest;
-        Position += Velocity * _deltaTime * remaining;
+        // Om vi nått max antal kollisioner
+        // lämnar vi resten av rörelsen för nästa frame.
     }
-
-    private float SweptAABB(Rectangle block, out Vector2 normal)
+    private float SweptAABB(Rectangle block, Vector2 velocityStep, out Vector2 normal)
     {
         normal = Vector2.Zero;
 
-        // Bollens rörelse denna frame
-        Vector2 vel = Velocity * _deltaTime;
+        float left = block.Left - Radius;
+        float right = block.Right + Radius;
+        float top = block.Top - Radius;
+        float bottom = block.Bottom + Radius;
 
-        // Utökad AABB (blocket expanderas med bollens diameter)
-        float expandedLeft = block.Left - Radius * 2;
-        float expandedRight = block.Right;
-        float expandedTop = block.Top - Radius * 2;
-        float expandedBottom = block.Bottom;
+        float xEntry, xExit;
+        float yEntry, yExit;
 
-        // Start- och slutposition
-        Vector2 start = new(Position.X - Radius, Position.Y - Radius);
-        Vector2 end = start + vel;
-
-        // Ray vs AABB
-        float tEntryX, tEntryY;
-        float tExitX, tExitY;
-
-        if (vel.X > 0)
+        // X
+        if (velocityStep.X > 0)
         {
-            tEntryX = (expandedLeft - start.X) / vel.X;
-            tExitX = (expandedRight - start.X) / vel.X;
+            xEntry = (left - Position.X) / velocityStep.X;
+            xExit = (right - Position.X) / velocityStep.X;
+        }
+        else if (velocityStep.X < 0)
+        {
+            xEntry = (right - Position.X) / velocityStep.X;
+            xExit = (left - Position.X) / velocityStep.X;
         }
         else
         {
-            tEntryX = (expandedRight - start.X) / vel.X;
-            tExitX = (expandedLeft - start.X) / vel.X;
+            xEntry = float.NegativeInfinity;
+            xExit = float.PositiveInfinity;
         }
 
-        if (vel.Y > 0)
+        // Y
+        if (velocityStep.Y > 0)
         {
-            tEntryY = (expandedTop - start.Y) / vel.Y;
-            tExitY = (expandedBottom - start.Y) / vel.Y;
+            yEntry = (top - Position.Y) / velocityStep.Y;
+            yExit = (bottom - Position.Y) / velocityStep.Y;
+        }
+        else if (velocityStep.Y < 0)
+        {
+            yEntry = (bottom - Position.Y) / velocityStep.Y;
+            yExit = (top - Position.Y) / velocityStep.Y;
         }
         else
         {
-            tEntryY = (expandedBottom - start.Y) / vel.Y;
-            tExitY = (expandedTop - start.Y) / vel.Y;
+            yEntry = float.NegativeInfinity;
+            yExit = float.PositiveInfinity;
         }
 
-        float tEntry = Math.Max(tEntryX, tEntryY);
-        float tExit = Math.Min(tExitX, tExitY);
+        float entryTime = Math.Max(xEntry, yEntry);
+        float exitTime = Math.Min(xExit, yExit);
 
-        // Ingen kollision
-        if (tEntry > tExit || tEntry < 0f || tEntry > 1f)
+        if (entryTime > exitTime)
             return 1f;
 
-        // Bestäm normal
-        if (tEntryX > tEntryY)
-            normal = new Vector2(vel.X > 0 ? -1 : 1, 0);
+        if (entryTime < 0f || entryTime > 1f)
+            return 1f;
+
+        if (xEntry > yEntry)
+        {
+            normal = velocityStep.X > 0
+                ? new Vector2(-1, 0)
+                : new Vector2(1, 0);
+        }
         else
-            normal = new Vector2(0, vel.Y > 0 ? -1 : 1);
+        {
+            normal = velocityStep.Y > 0
+                ? new Vector2(0, -1)
+                : new Vector2(0, 1);
+        }
 
-        return tEntry;
+        return entryTime;
     }
-
-
 
     public bool IsOutOfBounds(Viewport viewport)
     {
@@ -237,7 +264,7 @@ public class Ball
         Velocity = new Vector2(350f, -350f);
     }
 
-    public void Update(GameTime gameTime)
+    public void UpdateDeltaTime(GameTime gameTime)
     {
         if (!IsLaunched)
         {
@@ -247,7 +274,6 @@ public class Ball
 
         // Move the ball based on its velocity and the elapsed time since the last update
         _deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        Position += Velocity * _deltaTime;
     }
 
     public void Draw(SpriteBatch spriteBatch, Texture2D pixel)
