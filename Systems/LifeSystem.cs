@@ -12,6 +12,11 @@ public class LifeSystem
         return Lifes <= 0;
     }
 
+    public void AddLife()
+    {
+        Lifes++;
+    }
+
     public void Reset()
     {
         Lifes = GameConstants.PlayerLifes;

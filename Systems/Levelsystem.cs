@@ -129,15 +129,27 @@ public class LevelSystem
         {
             powerUp.Update(gameTime);
 
-            if(powerUp.Rect.Intersects(paddle.Rect))
+            if (powerUp.Rect.Intersects(paddle.Rect))
             {
-                // TODO: Activate power-up and remove from screen
+                switch (powerUp.Type)
+                {
+                    case PowerUpType.ExpandPaddle:
+                        paddle.Expand();
+                        break;
+                    case PowerUpType.ShrinkPaddle:
+                        paddle.Shrink();
+                        break;
+                    case PowerUpType.ExtraLife:
+                        LifeSystem.AddLife();
+                        break;
+                }
+
                 AudioSystem.PlayPowerUp();
                 _removePowerUps.Add(powerUp);
             }
         }
         _activePowerUps.RemoveAll(_removePowerUps.Contains);
-        
+
 
         // Remove destroyed blocks
         CurrentLevelData.Blocks.RemoveAll(b => b.IsDestroyed);

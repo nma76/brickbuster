@@ -20,4 +20,8 @@ public static class GameConstants
     public const float PowerUpSpeed = 150f;
     public const int PowerUpWidth = 32;
     public const int PowerUpHeight = 16;
+    public const int PaddleWidth = 120;
+    public const int PaddleHeight = 16;
+    public const int PaddleMaxWidth = 200;
+    public const int PaddleMinWidth = 60;
 }
