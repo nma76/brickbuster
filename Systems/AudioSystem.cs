@@ -13,6 +13,7 @@ public class AudioSystem
 
     // Holds Hit sound fx
     private readonly SoundEffect _hit;
+    private readonly SoundEffect _powerup;
 
     // Holds the music
     private readonly Song _music1;
@@ -25,6 +26,7 @@ public class AudioSystem
     public AudioSystem(ContentManager content)
     {
         _hit = content.Load<SoundEffect>("Audio/blockhit");
+        _powerup = content.Load<SoundEffect>("Audio/powerup");
         _music1 = content.Load<Song>("Audio/music1");
         _musicintense1 = content.Load<Song>("Audio/musicintense1");
         CurrentMusicType = MusicType.Normal;
@@ -33,6 +35,10 @@ public class AudioSystem
     public void PlayBlockHit()
     {
         _hit?.Play(_sfxVolume, 0f, 0f);
+    }
+    public void PlayPowerUp()
+    {
+        _powerup?.Play(_sfxVolume, 0f, 0f);
     }
     public void PlayPaddleHit()
     {

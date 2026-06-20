@@ -31,6 +31,12 @@
 /processorParam:Quality=Best
 /build:Audio/musicintense1.ogg
 
+#begin Audio/powerup.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/powerup.wav
+
 #begin Backgrounds/0001.png
 /importer:TextureImporter
 /processor:TextureProcessor

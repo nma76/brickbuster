@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using brickbuster.Config;
 using brickbuster.Core;
@@ -33,12 +34,15 @@ public class LevelSystem
     // Keep track on the paddle hit count
     private int _paddleHits = 0;
 
+    private List<PowerUp> _activePowerUps = [];
+    private List<PowerUp> _removePowerUps = [];
+
     public LevelSystem(LifeSystem lifeSystem, ScoreSystem scoreSystem, AudioSystem audioSystem)
     {
         LifeSystem = lifeSystem;
         ScoreSystem = scoreSystem;
         AudioSystem = audioSystem;
-        
+
         LoadLevel(CurrentLevel.ToString("0000"));
     }
 
@@ -58,6 +62,7 @@ public class LevelSystem
         if (CurrentLevelData.IsFinal)
         {
             HandleGameCompleted();
+            return;
         }
 
         // Load the next level
@@ -65,7 +70,7 @@ public class LevelSystem
         LoadLevel(CurrentLevel.ToString("0000"));
     }
 
-    public bool HandleBallOutOfBounds(Ball ball, Paddle paddle, Viewport viewport)
+    public bool HandleBallOutOfBounds(Ball ball, Viewport viewport)
     {
         if (ball.IsOutOfBounds(viewport))
         {
@@ -92,9 +97,9 @@ public class LevelSystem
         OnGameCompleted?.Invoke(true);
     }
 
-    public void Update(Ball ball, Paddle paddle, Viewport viewport)
+    public void Update(GameTime gameTime, Ball ball, Paddle paddle, Viewport viewport)
     {
-        if (HandleBallOutOfBounds(ball, paddle, viewport))
+        if (HandleBallOutOfBounds(ball, viewport))
         {
             if (LifeSystem.LoseLife())
             {
@@ -105,14 +110,34 @@ public class LevelSystem
         }
 
         // Check for destroyed blocks and update the score
-        // TODO: Move this to HandleScore
+        // TODO: Refactor this!!
         foreach (var block in CurrentLevelData.Blocks)
         {
             if (block.IsDestroyed)
             {
                 ScoreSystem.Add(block.ScoreValue);
+
+                if (block.PowerUp != PowerUpType.None)
+                {
+                    _activePowerUps.Add(new PowerUp(block.PowerUp, block.Rect.X, block.Rect.Y));
+                }
             }
         }
+
+        // Update power-ups
+        foreach (var powerUp in _activePowerUps)
+        {
+            powerUp.Update(gameTime);
+
+            if(powerUp.Rect.Intersects(paddle.Rect))
+            {
+                // TODO: Activate power-up and remove from screen
+                AudioSystem.PlayPowerUp();
+                _removePowerUps.Add(powerUp);
+            }
+        }
+        _activePowerUps.RemoveAll(_removePowerUps.Contains);
+        
 
         // Remove destroyed blocks
         CurrentLevelData.Blocks.RemoveAll(b => b.IsDestroyed);
@@ -146,6 +171,11 @@ public class LevelSystem
                     spriteBatch.Draw(pixel, marker, Color.Gold);
                 }
             }
+        }
+
+        foreach (var powerUp in _activePowerUps)
+        {
+            powerUp.Draw(spriteBatch, pixel);
         }
     }
 }

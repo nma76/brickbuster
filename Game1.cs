@@ -141,7 +141,7 @@ public class Game1 : Game
         }
 
         // Update the level system (remove destroyed blocks etc.)
-        _levelSystem.Update(_ball, _paddle, GraphicsDevice.Viewport);
+        _levelSystem.Update(gameTime, _ball, _paddle, GraphicsDevice.Viewport);
 
         base.Update(gameTime);
     }

@@ -12,9 +12,12 @@ public static class GameConstants
     public const int GridStartX = 115;
     public const int GridStartY = 60;
     public const double PowerUpchance = 0.10;
-    public const float SfxVolume = 0.5f;
-    public const float MusicVolume = 0.4f;
+    public const float SfxVolume = 1.0f;
+    public const float MusicVolume = 0.9f;
     public const float NormalMultiplier = 1f;
     public const float BossMultiplier = 1.4f;
     public const int BaseBonus = 5000;
+    public const float PowerUpSpeed = 150f;
+    public const int PowerUpWidth = 32;
+    public const int PowerUpHeight = 16;
 }
