@@ -7,7 +7,7 @@ namespace brickbuster.Entities.Blocks;
 public class BlockBase
 {
     public Rectangle Rect { get; private set; }
-    public int HitPoints { get; private set; }
+    public int HitPoints { get; protected set; }
     public Color Color { get; private set; }
     public int ScoreValue { get; private set; }
     public bool IsDestroyed => Type != BlockType.Unbreakable && HitPoints <= 0;
@@ -24,7 +24,7 @@ public class BlockBase
         Type = type;
     }
 
-    public void Hit()
+    public virtual void Hit()
     {
         if (Type != BlockType.Unbreakable)
         {
@@ -32,7 +32,7 @@ public class BlockBase
         }
     }
 
-    public void Draw(SpriteBatch spriteBatch, Texture2D pixel)
+    public virtual void Draw(SpriteBatch spriteBatch, Texture2D pixel)
     {
         if (!IsDestroyed)
         {

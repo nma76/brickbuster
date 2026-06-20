@@ -15,6 +15,7 @@ public static class BlockFactory
             'O' => new StandardBlock(x, y, Color.Orange, 250),
             'R' => new StandardBlock(x, y, Color.Red, 300),
             'H' => new HardBlock(x, y),
+            'I' => new InvisibleBlock(x,y),
             'U' => new UnbreakableBlock(x, y),
             _ => null
         };

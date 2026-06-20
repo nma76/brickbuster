@@ -12,6 +12,7 @@ public enum BlockType
 {
     Standard,
     Hard,
+    Invisible,
     Unbreakable
 }
 

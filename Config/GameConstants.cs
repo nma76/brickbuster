@@ -9,7 +9,7 @@ public static class GameConstants
     public const int PlayerLifes = 2;
 
     // Paddle parameters
-    public const int PaddleWidth = 120;
+    public const int PaddleWidth = 80;
     public const int PaddleHeight = 16;
     public const int PaddleMaxWidth = 200;
     public const int PaddleMinWidth = 60;
