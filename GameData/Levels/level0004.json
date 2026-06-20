@@ -2,7 +2,7 @@
     "name": "Level 4",
     "background": "generic1",
     "isBossLevel": true,
-    "isFinal": true,
+    "isFinal": false,
     "grid": [
         "............",
         "............",

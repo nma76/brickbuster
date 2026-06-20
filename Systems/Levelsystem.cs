@@ -16,7 +16,7 @@ public class LevelSystem
     public LevelData CurrentLevelData { get; private set; }
 
     // Keeps track of the current level
-    public int CurrentLevel { get; private set; } = 4;
+    public int CurrentLevel { get; private set; } = 1;
 
     // Holds instances of sub-systems
     public LifeSystem LifeSystem { get; private set; }
@@ -149,6 +149,9 @@ public class LevelSystem
         // Load the next level
         CurrentLevel++;
         LoadLevel(CurrentLevel.ToString("0000"));
+
+        // Remove any PowerUp still onscreen
+        _activePowerUps.Clear();
 
         // Restore paddle width and attach ball to paddle
         paddle.Restore();

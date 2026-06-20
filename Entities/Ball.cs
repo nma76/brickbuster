@@ -30,7 +30,7 @@ public class Ball
         AudioSystem = audioSystem;
 
         // Set the ball's radius
-        Radius = 8f;
+        Radius = GameConstants.BallRadius;
 
         // Start the ball in the center of the screen
         Position = new Vector2(viewport.Width / 2f, viewport.Height / 2f);

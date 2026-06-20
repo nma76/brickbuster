@@ -15,6 +15,7 @@ public static class GameConstants
     public const int PaddleMinWidth = 60;
 
     // Ball parameters
+    public const float BallRadius = 6f;
     public const float InitialBallSpeedX = 200f;
     public const float InitialBallSpeedY = -350f;
 

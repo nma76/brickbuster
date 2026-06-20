@@ -1,0 +1,22 @@
+{
+    "name": "Level 5",
+    "background": "generic1",
+    "isBossLevel": true,
+    "isFinal": true,
+    "grid": [
+        "............",
+        "...UU..UU...",
+        "..UYYYYYYU..",
+        ".UYYU..UYYU.",
+        ".YYYYYYYYYY.",
+        ".YYHYYYYHYY.",
+        ".YYYYYYYYYY.",
+        "..YY....YY..",
+        ".YYGG..GGYY.",
+        ".YGGG..GGGY.",
+        "...GG..GG...",
+        "..GGG..GGG..",
+        ".GG......GG.",
+        "............"
+    ]
+}
