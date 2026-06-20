@@ -13,4 +13,5 @@ public static class GameConstants
     public const int GridStartY = 60;
     public const double PowerUpchance = 0.10;
     public static float SfxVolume = 0.5f;
+    public static float MusicVolume = 0.4f;
 }

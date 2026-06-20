@@ -45,6 +45,7 @@ public class Game1 : Game
 
     private void HandleLevelChanged(LevelData levelData)
     {
+        // load background
         var backgroundTexture = Content.Load<Texture2D>($"Backgrounds/{levelData.Background}");
         _backgroundSystem.LoadBackground(backgroundTexture);
     }
@@ -66,6 +67,7 @@ public class Game1 : Game
 
         // Initialize audio system
         _audioSystem = new AudioSystem(Content);
+        _audioSystem.PlayMusic();
 
         // Initialize life system to handle player lifes
         _lifeSystem = new LifeSystem();
@@ -94,8 +96,10 @@ public class Game1 : Game
         _pixel = new Texture2D(GraphicsDevice, 1, 1);
         _pixel.SetData([Color.White]);
 
+        // Initialize sprite batch
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         
+        // Load background for level 1
         var backgroundTexture = Content.Load<Texture2D>("Backgrounds/0001");
         _backgroundSystem.LoadBackground(backgroundTexture);
     }

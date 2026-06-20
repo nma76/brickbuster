@@ -19,6 +19,18 @@
 /processorParam:Quality=Best
 /build:Audio/blockhit.wav
 
+#begin Audio/music1.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/music1.ogg
+
+#begin Audio/musicintense1.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/musicintense1.ogg
+
 #begin Backgrounds/0001.png
 /importer:TextureImporter
 /processor:TextureProcessor
