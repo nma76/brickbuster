@@ -34,11 +34,20 @@ public class BlockBase
 
     public virtual void Draw(SpriteBatch spriteBatch, Texture2D pixel)
     {
+        DrawBlock(spriteBatch, pixel);
+        DrawDebug(spriteBatch, pixel);
+    }
+
+    private void DrawBlock(SpriteBatch spriteBatch, Texture2D pixel)
+    {
         if (!IsDestroyed)
         {
             spriteBatch.Draw(pixel, Rect, Color);
         }
+    }
 
+    private void DrawDebug(SpriteBatch spriteBatch, Texture2D pixel)
+    {
         // If debug is true, visualize where power-ups are located
         if (GameConstants.Debug)
         {

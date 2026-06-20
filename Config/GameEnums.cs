@@ -13,6 +13,7 @@ public enum BlockType
     Standard,
     Hard,
     Invisible,
+    Ghost,
     Unbreakable
 }
 
