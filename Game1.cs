@@ -50,7 +50,12 @@ public class Game1 : Game
         var backgroundTexture = Content.Load<Texture2D>($"Backgrounds/{levelData.Background}");
         _backgroundSystem.LoadBackground(backgroundTexture);
 
+        // Set background music depending on level type
         _audioSystem.SwitchMusic(levelData.IsBossLevel);
+
+        // Set score multiplier depending on level type
+        var scoremultiplier = levelData.IsBossLevel ? GameConstants.BossMultiplier : GameConstants.NormalMultiplier;
+        _scoreSystem.SetMultiplier(scoremultiplier);
     }
 
     private void HandleGameCompleted(bool completed)

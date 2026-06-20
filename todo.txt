@@ -8,6 +8,10 @@ Ljud (ping, pong, explosion)
 Sedan grafik
 
 
+Score-multiplier för bosslevel
+Mer poäng för färra paddel-träffar
+Stegvis fartökning av boll
+
 
 
 Boss 1 – Neon Candy
@@ -16,7 +20,7 @@ specialblock
 powerups
 neonljus som blinkar
 
-🍫 Boss 2 – Chocolate Kingdom
+Boss 2 – Chocolate Kingdom
 tyngre block
 chokladfloder som rör sig
 “smältande” block
