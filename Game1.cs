@@ -87,6 +87,7 @@ public class Game1 : Game
         _levelSystem = new LevelSystem(_lifeSystem, _scoreSystem, _audioSystem);
         _levelSystem.OnLevelChanged += HandleLevelChanged;
         _levelSystem.OnGameCompleted += HandleGameCompleted;
+        _levelSystem.LoadLevel(_levelSystem.CurrentLevel.ToString("0000"));
 
         // Initialize the player's paddle
         _paddle = new Paddle(GraphicsDevice.Viewport);
@@ -107,10 +108,6 @@ public class Game1 : Game
 
         // Initialize sprite batch
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-        // Load background for level 1
-        var backgroundTexture = Content.Load<Texture2D>("Backgrounds/0001");
-        _backgroundSystem.LoadBackground(backgroundTexture);
     }
 
     protected override void Update(GameTime gameTime)
