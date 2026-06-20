@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using brickbuster.Config;
 using brickbuster.Entities;
 using brickbuster.Systems;
 using brickbuster.Models;
@@ -48,6 +49,8 @@ public class Game1 : Game
         // load background
         var backgroundTexture = Content.Load<Texture2D>($"Backgrounds/{levelData.Background}");
         _backgroundSystem.LoadBackground(backgroundTexture);
+
+        _audioSystem.SwitchMusic(levelData.IsBossLevel);
     }
 
     private void HandleGameCompleted(bool completed)
@@ -58,7 +61,7 @@ public class Game1 : Game
     protected override void Initialize()
     {
         // Set the window size
-        _graphics.PreferredBackBufferWidth = 1200;  
+        _graphics.PreferredBackBufferWidth = 1200;
         _graphics.PreferredBackBufferHeight = 720;
         _graphics.ApplyChanges();
 
@@ -87,7 +90,7 @@ public class Game1 : Game
         _ball = new Ball(GraphicsDevice.Viewport, _audioSystem);
         _ball.AttachToPaddle(_paddle.Rect);
 
-        base.Initialize(); 
+        base.Initialize();
     }
 
     protected override void LoadContent()
@@ -98,7 +101,7 @@ public class Game1 : Game
 
         // Initialize sprite batch
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        
+
         // Load background for level 1
         var backgroundTexture = Content.Load<Texture2D>("Backgrounds/0001");
         _backgroundSystem.LoadBackground(backgroundTexture);

@@ -1,7 +1,7 @@
 {
     "name": "Level 3",
-    "music": "brickbuster.ogg",
     "background": "generic1",
+    "isBossLevel": false,
     "isFinal": true,
     "grid": [
         "............",

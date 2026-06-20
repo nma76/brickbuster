@@ -55,8 +55,8 @@ public static class LevelLoader
         return new LevelData
         {
             Name = data.Name,
-            Music = data.Music,
             Background = data.Background,
+            IsBossLevel = data.IsBossLevel,
             IsFinal = data.IsFinal,
             Blocks = blocks
         };

@@ -14,3 +14,9 @@ public enum BlockType
     Hard,
     Unbreakable
 }
+
+public enum MusicType
+{
+    Normal,
+    Intense
+}

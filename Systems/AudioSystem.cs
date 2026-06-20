@@ -8,17 +8,26 @@ namespace brickbuster.Systems;
 
 public class AudioSystem
 {
+    // Keeps track of what music is currently playing
+    public MusicType CurrentMusicType { get; private set; }
+
+    // Holds Hit sound fx
     private readonly SoundEffect _hit;
+
+    // Holds the music
     private readonly Song _music1;
     private readonly Song _musicintense1;
+
+    // Local volume
     private float _sfxVolume = GameConstants.SfxVolume;
-    private float _songVolume = GameConstants.MusicVolume;
+    private float _musicVolume = GameConstants.MusicVolume;
 
     public AudioSystem(ContentManager content)
     {
         _hit = content.Load<SoundEffect>("Audio/blockhit");
         _music1 = content.Load<Song>("Audio/music1");
         _musicintense1 = content.Load<Song>("Audio/musicintense1");
+        CurrentMusicType = MusicType.Normal;
     }
 
     public void PlayBlockHit()
@@ -33,16 +42,32 @@ public class AudioSystem
     {
         _hit?.Play(_sfxVolume, -0.8f, 0f);
     }
+    public void SwitchMusic(bool isBossLevel)
+    {
+        var desired = isBossLevel ? MusicType.Intense : MusicType.Normal;
+
+        if (desired == CurrentMusicType)
+            return;
+
+        if (desired == MusicType.Intense)
+            PlayMusicIntense();
+        else
+            PlayMusic();
+    }
     public void PlayMusic()
     {
+        CurrentMusicType = MusicType.Normal;
+
         MediaPlayer.IsRepeating = true;
-        MediaPlayer.Volume = _songVolume;
+        MediaPlayer.Volume = _musicVolume;
         MediaPlayer.Play(_music1);
     }
     public void PlayMusicIntense()
     {
+        CurrentMusicType = MusicType.Intense;
+
         MediaPlayer.IsRepeating = true;
-        MediaPlayer.Volume = _songVolume;
+        MediaPlayer.Volume = _musicVolume;
         MediaPlayer.Play(_musicintense1);
     }
     public void StopMusic()
@@ -56,6 +81,6 @@ public class AudioSystem
     }
     public void SetMusicVolume(float volume)
     {
-        _sfxVolume = Math.Clamp(volume, 0f, 1f);
+        _musicVolume = Math.Clamp(volume, 0f, 1f);
     }
 }
