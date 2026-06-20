@@ -1,0 +1,22 @@
+{
+    "name": "Level 4",
+    "background": "generic1",
+    "isBossLevel": true,
+    "isFinal": true,
+    "grid": [
+        "............",
+        "............",
+        "............",
+        "............",
+        "UUUUUUUUUUUU",
+        "U.Y.Y.Y.Y..U",
+        "U.Y.Y.Y.Y..U",
+        "UHUUUUUUUUUU",
+        "U.B...B....U",
+        "U...B...B..U",
+        "UUUUUUUUUUHU",
+        "....G...G..U",
+        "..G...G....U",
+        "..UUUUUUUUUU"
+    ]
+}

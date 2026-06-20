@@ -7,7 +7,6 @@ using brickbuster.Entities;
 using brickbuster.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace brickbuster.Systems;
 
@@ -17,7 +16,7 @@ public class LevelSystem
     public LevelData CurrentLevelData { get; private set; }
 
     // Keeps track of the current level
-    public int CurrentLevel { get; private set; } = 1;
+    public int CurrentLevel { get; private set; } = 4;
 
     // Holds instances of sub-systems
     public LifeSystem LifeSystem { get; private set; }
@@ -171,21 +170,6 @@ public class LevelSystem
         {
             // Draw the block
             block.Draw(spriteBatch, pixel);
-
-            // If debug is true, visualize where power-ups are located
-            if (GameConstants.Debug)
-            {
-                if (block.PowerUp != PowerUpType.None)
-                {
-                    var marker = new Rectangle(
-                        block.Rect.Center.X - 5,
-                        block.Rect.Center.Y - 5,
-                        10,
-                        10
-                    );
-                    spriteBatch.Draw(pixel, marker, Color.Gold);
-                }
-            }
         }
 
         foreach (var powerUp in _activePowerUps)

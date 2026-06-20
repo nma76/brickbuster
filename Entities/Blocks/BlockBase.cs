@@ -38,5 +38,20 @@ public class BlockBase
         {
             spriteBatch.Draw(pixel, Rect, Color);
         }
+
+        // If debug is true, visualize where power-ups are located
+        if (GameConstants.Debug)
+        {
+            if (PowerUp != PowerUpType.None)
+            {
+                var marker = new Rectangle(
+                    Rect.Center.X - 5,
+                    Rect.Center.Y - 5,
+                    10,
+                    10
+                );
+                spriteBatch.Draw(pixel, marker, Color.Gold);
+            }
+        }
     }
 }

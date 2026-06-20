@@ -1,5 +1,3 @@
-Powerups som faller nedåt
-Kollision mellan powerup och paddel
 Game Over‑flöde
 Stegvis fartökning av boll
 
