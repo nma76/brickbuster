@@ -1,0 +1,22 @@
+{
+    "name": "Level 10",
+    "background": "0002",
+    "isBossLevel": true,
+    "isFinal": true,
+    "grid": [
+        "............",
+        ".RRRRRRRRRR.",
+        ".ROOOOOOOOR.",
+        ".ROYYYYYYOR.",
+        ".ROYGGGGYOR.",
+        ".ROYGBBGYOR.",
+        ".ROYGGGGYOR.",
+        ".ROYYYYYYOR.",
+        ".ROOOOOOOOR.",
+        ".RRRRRRRRRR.",
+        "............",
+        "............",
+        "............",
+        "............"
+    ]
+}

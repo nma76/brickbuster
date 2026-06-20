@@ -1,6 +1,9 @@
 Game Over‑flöde
 Stegvis fartökning av boll
 
+Riktig grafik för
+    boll
+    paddel
 
 Boss 1 – Neon Candy
 snabbare boll

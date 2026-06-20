@@ -5,12 +5,18 @@
     "isFinal": false,
     "grid": [
         "............",
-        "HHHHHHHHHHHH",
-        "RRR.RRRR.RRR",
-        "OOO.OOOO.OOO",
-        "YYY.YYYY.YYY",
-        "BBB.BBBB.BBB",
-        "GGG.GGGG.GGG",
-        "....UUUU...."
+        "...YYYYYY...",
+        "..YGGGGGGY..",
+        ".YGG....GGY.",
+        ".YGG....GGY.",
+        "..YGGGGGGY..",
+        "...YYYYYY...",
+        "............",
+        "............",
+        "............",
+        "............",
+        "............",
+        "............",
+        "............"
     ]
 }

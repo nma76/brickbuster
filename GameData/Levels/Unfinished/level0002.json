@@ -1,0 +1,22 @@
+{
+    "name": "Level 2",
+    "background": "generic1",
+    "isBossLevel": true,
+    "isFinal": false,
+    "grid": [
+        "............",
+        "...UUUUUU...",
+        "..UYYYYYYU..",
+        ".UYYU..UYYU.",
+        ".UYYH..HYYU.",
+        ".UYYU..UYYU.",
+        ".UYYYYYYYYU.",
+        "..UYYYYYYU..",
+        "...UYYYYU...",
+        "..OOYYYYOO..",
+        ".OOOYYYYOOO.",
+        "...OOYYOO...",
+        "....OOOO....",
+        "............"
+    ]
+}
