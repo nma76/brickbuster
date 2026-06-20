@@ -23,11 +23,15 @@ public class LevelSystem
     public ScoreSystem ScoreSystem { get; private set; }
     public AudioSystem AudioSystem { get; private set; }
 
+    //Events
     public event Action<LevelData> OnLevelChanged;
     public event Action<bool> OnGameCompleted;
 
     // Keep track of if level is cleared from breakable blocks
     public bool IsLevelCleared => CurrentLevelData.Blocks.Where(b => b.Type != BlockType.Unbreakable).All(b => b.IsDestroyed);
+
+    // Keep track on the paddle hit count
+    private int _paddleHits = 0;
 
     public LevelSystem(LifeSystem lifeSystem, ScoreSystem scoreSystem, AudioSystem audioSystem)
     {
@@ -46,11 +50,17 @@ public class LevelSystem
 
     public void HandleLevelComplete()
     {
+        // Add bonus based on padle hits (fewer is better)
+        ScoreSystem.AddBonus(_paddleHits);
+        _paddleHits = 0;
+
+        // If this was the last level, handle game completed
         if (CurrentLevelData.IsFinal)
         {
             HandleGameCompleted();
         }
 
+        // Load the next level
         CurrentLevel++;
         LoadLevel(CurrentLevel.ToString("0000"));
     }
@@ -62,6 +72,11 @@ public class LevelSystem
             return true;
         }
         return false;
+    }
+
+    public void RegisterPaddleHit()
+    {
+        _paddleHits++;
     }
 
     private void HandleGameOver()

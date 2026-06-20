@@ -94,6 +94,7 @@ public class Game1 : Game
         // Initialize the ball
         _ball = new Ball(GraphicsDevice.Viewport, _audioSystem);
         _ball.AttachToPaddle(_paddle.Rect);
+        _ball.OnPaddleHit += _levelSystem.RegisterPaddleHit;
 
         base.Initialize();
     }

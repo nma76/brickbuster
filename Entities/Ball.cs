@@ -19,6 +19,9 @@ public class Ball
     // Indicates whether the ball has been launched or is still waiting on the paddle
     public bool IsLaunched { get; private set; } = false;
 
+    // Events
+    public event Action OnPaddleHit;
+
     private float _deltaTime;
 
     public Ball(Viewport viewport, AudioSystem audioSystem)
@@ -112,6 +115,9 @@ public class Ball
 
             // Scale the horizontal velocity based on the normalized distance
             Velocity.X = normalized * 250f;
+
+            // Trigger event to let subscibers know ball hit the paddle
+            OnPaddleHit?.Invoke();
         }
     }
 

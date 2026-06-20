@@ -1,3 +1,4 @@
+using System;
 using brickbuster.Config;
 
 namespace brickbuster.Systems;
@@ -14,6 +15,12 @@ public class ScoreSystem
     public void Add(int value)
     {
         Score += (int)(value * Multiplier);
+    }
+    public void AddBonus(int paddleHits)
+    {
+        int baseBonus = GameConstants.BaseBonus;
+        int penalty = paddleHits * 10;
+        Score += Math.Max(0, baseBonus - penalty);
     }
     public void Reset()
     {

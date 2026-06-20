@@ -16,4 +16,5 @@ public static class GameConstants
     public const float MusicVolume = 0.4f;
     public const float NormalMultiplier = 1f;
     public const float BossMultiplier = 1.4f;
+    public const int BaseBonus = 5000;
 }
