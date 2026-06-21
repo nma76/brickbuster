@@ -102,7 +102,7 @@ public class LevelSystem
     {
         OnGameCompleted?.Invoke(true);
     }
-    
+
     private void HandleBlocks()
     {
         foreach (var block in CurrentLevelData.Blocks)
@@ -121,10 +121,10 @@ public class LevelSystem
         // Remove destroyed blocks
         CurrentLevelData.Blocks.RemoveAll(b => b.IsDestroyed);
     }
-    private void HandlePowerUps(GameTime gameTime, Paddle paddle)
+    private void HandlePowerUps(GameTime gameTime, Ball ball, Paddle paddle)
     {
         // Update power-ups
-        foreach (var powerUp in _activePowerUps)
+        foreach (var powerUp in _activePowerUps.ToList())
         {
             powerUp.Update(gameTime);
 
@@ -133,6 +133,11 @@ public class LevelSystem
                 switch (powerUp.Type)
                 {
                     case PowerUpType.Death:
+                        // Decrease life
+                        if (LifeSystem.LoseLife())
+                        {
+                            HandleGameOver(ball, paddle);
+                        }
                         break;
                     case PowerUpType.ReverseControls:
                         paddle.ReverseControls();
@@ -198,7 +203,7 @@ public class LevelSystem
     {
         HandleBallOutOfBounds(ball, paddle, viewport);
         HandleBlocks();
-        HandlePowerUps(gameTime, paddle);
+        HandlePowerUps(gameTime, ball, paddle);
         HandleLevelCompletion(ball, paddle);
         HandleIncreaeDifficulty(ball);
     }

@@ -7,6 +7,7 @@ public static class PowerUpRandomizer
 {
     private static readonly PowerUpType[] possiblePowerUps =
     [
+        PowerUpType.Death,
         PowerUpType.ExpandPaddle,
         PowerUpType.ExtraLife,
         PowerUpType.ShrinkPaddle,
