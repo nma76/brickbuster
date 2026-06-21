@@ -9,7 +9,8 @@ public static class PowerUpRandomizer
     [
         PowerUpType.ExpandPaddle,
         PowerUpType.ExtraLife,
-        PowerUpType.ShrinkPaddle
+        PowerUpType.ShrinkPaddle,
+        PowerUpType.ReverseControls
     ];
 
     public static PowerUpType Roll()

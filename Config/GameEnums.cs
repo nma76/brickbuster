@@ -5,7 +5,9 @@ public enum PowerUpType
     None,
     ExpandPaddle,
     ShrinkPaddle,
-    ExtraLife
+    ExtraLife,
+    ReverseControls,
+    Death,
 }
 
 public enum BlockType

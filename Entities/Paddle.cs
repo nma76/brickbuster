@@ -11,6 +11,8 @@ public class Paddle
     private readonly int _screenWidth;
     private int _width;
     private readonly int _height;
+    private bool _isReversed = false;
+    private int _lastMouseX;
 
     public Paddle(Viewport viewport)
     {
@@ -49,29 +51,53 @@ public class Paddle
     }
     public void Shrink()
     {
-        // Never grow below min
+        // Never shrink below min
         _width = Math.Max(_width - 20, GameConstants.PaddleMinWidth);
         UpdateRect();
+    }
+    public void ReverseControls()
+    {
+        _isReversed = !_isReversed;
+    }
+    public void RestoreControls()
+    {
+        _isReversed = false;
     }
     public void Restore()
     {
         _width = GameConstants.PaddleWidth;
+        RestoreControls();
         UpdateRect();
     }
 
     public void MoveTo(int mouseX)
     {
+        // Calculate movement
+        int delta = mouseX - _lastMouseX;
+
+        // If reversed, invert movement
+        if(_isReversed)
+        {
+            delta = -delta;
+        }
+
+        // Use delta for new position
+        int newX = Rect.X + delta;
+
         // Prevent moving past the boundary (assuming a 10 pixel boundary on the left and right)
-        int newX = mouseX - Rect.Width / 2;
         if (newX < GameConstants.BorderThickness) newX = GameConstants.BorderThickness;
         if (newX + Rect.Width > _screenWidth - GameConstants.BorderThickness) newX = _screenWidth - GameConstants.BorderThickness - Rect.Width;
 
+        // Update paddle
         Rect = new Rectangle(
             newX,
             Rect.Y,
             Rect.Width,
             Rect.Height
         );
+
+        // Save last position
+        _lastMouseX = mouseX;
     }
 
     public void Draw(SpriteBatch spriteBatch, Texture2D pixel)

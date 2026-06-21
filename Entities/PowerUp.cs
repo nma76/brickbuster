@@ -26,8 +26,10 @@ public class PowerUp
     {
         Color color = Type switch 
         {
-            PowerUpType.ExpandPaddle => Color.Green,
-            PowerUpType.ShrinkPaddle => Color.Black,
+            PowerUpType.Death => Color.Black,
+            PowerUpType.ReverseControls => Color.Red,
+            PowerUpType.ExpandPaddle => Color.Blue,
+            PowerUpType.ShrinkPaddle => Color.BlueViolet,
             PowerUpType.ExtraLife => Color.Gold,
             _ => Color.White
         };

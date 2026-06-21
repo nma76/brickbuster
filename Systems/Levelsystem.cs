@@ -65,6 +65,7 @@ public class LevelSystem
         }
 
         // Attach ball to paddle
+        paddle.Restore();
         ball.AttachToPaddle(paddle.Rect);
 
         // Reset ball speed
@@ -131,6 +132,11 @@ public class LevelSystem
             {
                 switch (powerUp.Type)
                 {
+                    case PowerUpType.Death:
+                        break;
+                    case PowerUpType.ReverseControls:
+                        paddle.ReverseControls();
+                        break;
                     case PowerUpType.ExpandPaddle:
                         paddle.Expand();
                         break;
