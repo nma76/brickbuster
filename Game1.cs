@@ -18,6 +18,9 @@ public class Game1 : Game
     // Create a pixel texture for drawing rectangles
     private Texture2D _pixel;
 
+    // Handles all blocks
+    private BlockSystem _blockSystem;
+
     // Handles the backgrounds
     private BackgroundSystem _backgroundSystem;
 
@@ -94,11 +97,14 @@ public class Game1 : Game
         // Initialize Power-Up System
         _powerUpSystem = new PowerUpSystem(_audioSystem, _lifeSystem);
 
+        // Initialize Block system
+        _blockSystem = new BlockSystem(_powerUpSystem, _scoreSystem);
+
         // Initialize difficulty system
         _difficultySystem = new DifficultySystem();
 
         // Initialize the level system and create some blocks for testing
-        _levelSystem = new LevelSystem(_lifeSystem, _scoreSystem, _audioSystem, _difficultySystem, _powerUpSystem);
+        _levelSystem = new LevelSystem(_lifeSystem, _scoreSystem, _audioSystem, _difficultySystem, _powerUpSystem, _blockSystem);
         _levelSystem.OnLevelChanged += HandleLevelChanged;
         _levelSystem.OnGameCompleted += HandleGameCompleted;
         _levelSystem.LoadLevel(_levelSystem.CurrentLevel.ToString("0000"));

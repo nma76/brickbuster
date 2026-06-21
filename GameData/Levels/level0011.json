@@ -1,0 +1,22 @@
+{
+    "name": "Level 11",
+    "background": "generic1",
+    "isBossLevel": false,
+    "isFinal": true,
+    "grid": [
+        "............",
+        ".RRRRRRRRRR.",
+        ".ROOOOOOOOR.",
+        ".ROYYYYYYOR.",
+        ".ROYGGGGYOR.",
+        ".ROYGBBGYOR.",
+        ".ROYGGGGYOR.",
+        ".ROYYYYYYOR.",
+        ".ROOOOOOOOR.",
+        ".RRRRRRRRRR.",
+        "............",
+        "............",
+        "............",
+        "............"
+    ]
+}

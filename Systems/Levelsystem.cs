@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using brickbuster.Config;
 using brickbuster.Core;
@@ -16,7 +15,7 @@ public class LevelSystem
     public LevelData CurrentLevelData { get; private set; }
 
     // Keeps track of the current level
-    public int CurrentLevel { get; private set; } = 1;
+    public int CurrentLevel { get; private set; } = 10;
 
     // Holds instances of sub-systems
     public LifeSystem LifeSystem { get; private set; }
@@ -24,6 +23,7 @@ public class LevelSystem
     public AudioSystem AudioSystem { get; private set; }
     public DifficultySystem DifficultySysem { get; private set; }
     public PowerUpSystem PowerUpSystem { get; private set;}
+    public BlockSystem BlockSystem { get; private set; }
 
     //Events
     public event Action<LevelData> OnLevelChanged;
@@ -35,13 +35,14 @@ public class LevelSystem
     // Keep track on the paddle hit count
     private int _paddleHits = 0;
 
-    public LevelSystem(LifeSystem lifeSystem, ScoreSystem scoreSystem, AudioSystem audioSystem, DifficultySystem difficultySystem, PowerUpSystem powerUpSystem)
+    public LevelSystem(LifeSystem lifeSystem, ScoreSystem scoreSystem, AudioSystem audioSystem, DifficultySystem difficultySystem, PowerUpSystem powerUpSystem, BlockSystem blockSystem)
     {
         LifeSystem = lifeSystem;
         ScoreSystem = scoreSystem;
         AudioSystem = audioSystem;
         DifficultySysem = difficultySystem;
         PowerUpSystem = powerUpSystem;
+        BlockSystem = blockSystem;
     }
 
     public void LoadLevel(string level)
@@ -104,21 +105,8 @@ public class LevelSystem
 
     private void HandleBlocks()
     {
-        foreach (var block in CurrentLevelData.Blocks)
-        {
-            if (block.IsDestroyed)
-            {
-                ScoreSystem.Add(block.ScoreValue);
-
-                if (block.PowerUp != PowerUpType.None)
-                {
-                    PowerUpSystem.Add(new PowerUp(block.PowerUp, block.Rect.X, block.Rect.Y));
-                }
-            }
-        }
-
-        // Remove destroyed blocks
-        CurrentLevelData.Blocks.RemoveAll(b => b.IsDestroyed);
+        BlockSystem.Blocks = CurrentLevelData.Blocks;
+        BlockSystem.Update();
     }
     private void HandlePowerUps(GameTime gameTime, Ball ball, Paddle paddle)
     {

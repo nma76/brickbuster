@@ -41,7 +41,7 @@ public static class LevelLoader
                 if (block != null)
                 {
                     // If block isn't unbreakable, it can hold a power-up
-                    if (block.Type != BlockType.Unbreakable || block.Type != BlockType.Ghost)
+                    if (block.Type != BlockType.Unbreakable && block.Type != BlockType.Ghost)
                     {
                         block.PowerUp = PowerUpRandomizer.Roll();
                     }
