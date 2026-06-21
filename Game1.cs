@@ -31,6 +31,9 @@ public class Game1 : Game
     // Handles the score
     private ScoreSystem _scoreSystem;
 
+    // Handels difficulty
+    private DifficultySystem _difficultySystem;
+
     // The player's paddle
     private Paddle _paddle;
 
@@ -83,8 +86,11 @@ public class Game1 : Game
         // Initalize score system to keep track of score
         _scoreSystem = new ScoreSystem();
 
+        // Initialize difficulty system
+        _difficultySystem = new DifficultySystem();
+
         // Initialize the level system and create some blocks for testing
-        _levelSystem = new LevelSystem(_lifeSystem, _scoreSystem, _audioSystem);
+        _levelSystem = new LevelSystem(_lifeSystem, _scoreSystem, _audioSystem, _difficultySystem);
         _levelSystem.OnLevelChanged += HandleLevelChanged;
         _levelSystem.OnGameCompleted += HandleGameCompleted;
         _levelSystem.LoadLevel(_levelSystem.CurrentLevel.ToString("0000"));

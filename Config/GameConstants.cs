@@ -7,17 +7,19 @@ public static class GameConstants
 
     // Game play parameters
     public const int PlayerLifes = 2;
+    public const float IncreseBallSpeedFactor = 1.05f;
 
     // Paddle parameters
     public const int PaddleWidth = 80;
     public const int PaddleHeight = 16;
-    public const int PaddleMaxWidth = 200;
-    public const int PaddleMinWidth = 60;
+    public const int PaddleMaxWidth = 220;
+    public const int PaddleMinWidth = 40;
 
     // Ball parameters
     public const float BallRadius = 6f;
-    public const float InitialBallSpeedX = 200f;
+    public const float InitialBallSpeedX = 150f;
     public const float InitialBallSpeedY = -350f;
+    public const float BallMaxSpeed = 1200f;
 
     // Block parameters
     public const int BlockWidth = 80;

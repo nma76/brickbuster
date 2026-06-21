@@ -5,6 +5,25 @@ Riktig grafik för
     boll
     paddel
 
+
+Öka hastighet när få block återstår:
+int remaining = CurrentLevelData.Blocks.Count(b => !b.IsDestroyed);
+
+if (remaining < 10)
+    ball.IncreaseSpeed(1.02f);
+if (remaining < 5)
+    ball.IncreaseSpeed(1.03f);
+
+
+Öka hastighet per bana;
+public void ApplyLevelSpeedBonus(Ball ball)
+{
+    float factor = 1f + (CurrentLevel * 0.01f); // +1% per level
+    ball.IncreaseSpeed(factor);
+}
+
+
+
 Boss 1 – Neon Candy
 snabbare boll
 specialblock

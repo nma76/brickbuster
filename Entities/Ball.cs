@@ -252,6 +252,20 @@ public class Ball
         return entryTime;
     }
 
+    public void ResetSpeed()
+    {
+        Velocity = new Vector2(GameConstants.InitialBallSpeedX, GameConstants.InitialBallSpeedY);
+    }
+    public void IncreaseSpeed(float factor)
+    {
+        Velocity *= factor;
+
+        if(Velocity.Length() > GameConstants.BallMaxSpeed)
+        {
+            Velocity = Vector2.Normalize(Velocity) * GameConstants.BallMaxSpeed;
+        }
+    }
+
     public bool IsOutOfBounds(Viewport viewport)
     {
         // Check if the ball has fallen below the bottom of the screen
@@ -261,7 +275,7 @@ public class Ball
     public void Reset(Viewport viewport)
     {
         Position = new Vector2(viewport.Width / 2f, viewport.Height / 2f);
-        Velocity = new Vector2(350f, -350f);
+        Velocity = new Vector2(GameConstants.InitialBallSpeedX, GameConstants.InitialBallSpeedY);
     }
 
     public void UpdateDeltaTime(GameTime gameTime)

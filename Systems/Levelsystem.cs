@@ -22,6 +22,7 @@ public class LevelSystem
     public LifeSystem LifeSystem { get; private set; }
     public ScoreSystem ScoreSystem { get; private set; }
     public AudioSystem AudioSystem { get; private set; }
+    public DifficultySystem DifficultySysem { get; private set; }
 
     //Events
     public event Action<LevelData> OnLevelChanged;
@@ -36,11 +37,12 @@ public class LevelSystem
     private List<PowerUp> _activePowerUps = [];
     private List<PowerUp> _removePowerUps = [];
 
-    public LevelSystem(LifeSystem lifeSystem, ScoreSystem scoreSystem, AudioSystem audioSystem)
+    public LevelSystem(LifeSystem lifeSystem, ScoreSystem scoreSystem, AudioSystem audioSystem, DifficultySystem difficultySystem)
     {
         LifeSystem = lifeSystem;
         ScoreSystem = scoreSystem;
         AudioSystem = audioSystem;
+        DifficultySysem = difficultySystem;
     }
 
     public void LoadLevel(string level)
@@ -56,12 +58,17 @@ public class LevelSystem
             return;
         }
 
+        // Decrease life
         if (LifeSystem.LoseLife())
         {
             HandleGameOver();
         }
 
+        // Attach ball to paddle
         ball.AttachToPaddle(paddle.Rect);
+
+        // Reset ball speed
+        DifficultySysem.ResetBallSpeed(ball);
     }
     public void RegisterPaddleHit()
     {
@@ -154,6 +161,15 @@ public class LevelSystem
         // Restore paddle width and attach ball to paddle
         paddle.Restore();
         ball.AttachToPaddle(paddle.Rect);
+
+        // Reset ball speed
+        DifficultySysem.ResetBallSpeed(ball);
+    }
+
+    private void HandleIncreaeDifficulty(Ball ball)
+    {
+        // Increase ball speed gradually
+        DifficultySysem.IncreaseBallspeed(ball, _paddleHits);
     }
 
     public void Update(GameTime gameTime, Ball ball, Paddle paddle, Viewport viewport)
@@ -162,6 +178,7 @@ public class LevelSystem
         HandleBlocks(ball);
         HandlePowerUps(gameTime, paddle);
         HandleLevelCompletion(ball, paddle);
+        HandleIncreaeDifficulty(ball);
     }
 
     public void Draw(SpriteBatch spriteBatch, Texture2D pixel)
