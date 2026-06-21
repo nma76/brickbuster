@@ -23,6 +23,7 @@ public class LevelSystem
     public ScoreSystem ScoreSystem { get; private set; }
     public AudioSystem AudioSystem { get; private set; }
     public DifficultySystem DifficultySysem { get; private set; }
+    public PowerUpSystem PowerUpSystem { get; private set;}
 
     //Events
     public event Action<LevelData> OnLevelChanged;
@@ -34,15 +35,13 @@ public class LevelSystem
     // Keep track on the paddle hit count
     private int _paddleHits = 0;
 
-    private List<PowerUp> _activePowerUps = [];
-    private List<PowerUp> _removePowerUps = [];
-
-    public LevelSystem(LifeSystem lifeSystem, ScoreSystem scoreSystem, AudioSystem audioSystem, DifficultySystem difficultySystem)
+    public LevelSystem(LifeSystem lifeSystem, ScoreSystem scoreSystem, AudioSystem audioSystem, DifficultySystem difficultySystem, PowerUpSystem powerUpSystem)
     {
         LifeSystem = lifeSystem;
         ScoreSystem = scoreSystem;
         AudioSystem = audioSystem;
         DifficultySysem = difficultySystem;
+        PowerUpSystem = powerUpSystem;
     }
 
     public void LoadLevel(string level)
@@ -88,7 +87,7 @@ public class LevelSystem
         LoadLevel(CurrentLevel.ToString("0000"));
 
         // Remove any PowerUp still onscreen
-        _activePowerUps.Clear();
+        PowerUpSystem.ClearActive();
 
         // Restore paddle width and attach ball to paddle
         paddle.Restore();
@@ -113,7 +112,7 @@ public class LevelSystem
 
                 if (block.PowerUp != PowerUpType.None)
                 {
-                    _activePowerUps.Add(new PowerUp(block.PowerUp, block.Rect.X, block.Rect.Y));
+                    PowerUpSystem.Add(new PowerUp(block.PowerUp, block.Rect.X, block.Rect.Y));
                 }
             }
         }
@@ -124,40 +123,7 @@ public class LevelSystem
     private void HandlePowerUps(GameTime gameTime, Ball ball, Paddle paddle)
     {
         // Update power-ups
-        foreach (var powerUp in _activePowerUps.ToList())
-        {
-            powerUp.Update(gameTime);
-
-            if (powerUp.Rect.Intersects(paddle.Rect))
-            {
-                switch (powerUp.Type)
-                {
-                    case PowerUpType.Death:
-                        // Decrease life
-                        if (LifeSystem.LoseLife())
-                        {
-                            HandleGameOver(ball, paddle);
-                        }
-                        break;
-                    case PowerUpType.ReverseControls:
-                        paddle.ReverseControls();
-                        break;
-                    case PowerUpType.ExpandPaddle:
-                        paddle.Expand();
-                        break;
-                    case PowerUpType.ShrinkPaddle:
-                        paddle.Shrink();
-                        break;
-                    case PowerUpType.ExtraLife:
-                        LifeSystem.AddLife();
-                        break;
-                }
-
-                AudioSystem.PlayPowerUp();
-                _removePowerUps.Add(powerUp);
-            }
-        }
-        _activePowerUps.RemoveAll(_removePowerUps.Contains);
+        PowerUpSystem.Update(gameTime, paddle);
     }
     private void HandleLevelCompletion(Ball ball, Paddle paddle)
     {
@@ -183,7 +149,7 @@ public class LevelSystem
         LoadLevel(CurrentLevel.ToString("0000"));
 
         // Remove any PowerUp still onscreen
-        _activePowerUps.Clear();
+        PowerUpSystem.ClearActive();
 
         // Restore paddle width and attach ball to paddle
         paddle.Restore();
@@ -217,9 +183,6 @@ public class LevelSystem
             block.Draw(spriteBatch, pixel);
         }
 
-        foreach (var powerUp in _activePowerUps)
-        {
-            powerUp.Draw(spriteBatch, pixel);
-        }
+        PowerUpSystem.Draw(spriteBatch, pixel);
     }
 }

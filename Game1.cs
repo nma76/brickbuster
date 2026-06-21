@@ -6,6 +6,7 @@ using brickbuster.Entities;
 using brickbuster.Systems;
 using brickbuster.Models;
 using System.Linq;
+using System.Net.Http.Headers;
 
 namespace brickbuster;
 
@@ -34,6 +35,9 @@ public class Game1 : Game
 
     // Handels difficulty
     private DifficultySystem _difficultySystem;
+
+    // Handles power-ups
+    private PowerUpSystem _powerUpSystem;
 
     // The player's paddle
     private Paddle _paddle;
@@ -87,11 +91,14 @@ public class Game1 : Game
         // Initalize score system to keep track of score
         _scoreSystem = new ScoreSystem();
 
+        // Initialize Power-Up System
+        _powerUpSystem = new PowerUpSystem(_audioSystem, _lifeSystem);
+
         // Initialize difficulty system
         _difficultySystem = new DifficultySystem();
 
         // Initialize the level system and create some blocks for testing
-        _levelSystem = new LevelSystem(_lifeSystem, _scoreSystem, _audioSystem, _difficultySystem);
+        _levelSystem = new LevelSystem(_lifeSystem, _scoreSystem, _audioSystem, _difficultySystem, _powerUpSystem);
         _levelSystem.OnLevelChanged += HandleLevelChanged;
         _levelSystem.OnGameCompleted += HandleGameCompleted;
         _levelSystem.LoadLevel(_levelSystem.CurrentLevel.ToString("0000"));
