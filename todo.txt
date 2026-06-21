@@ -1,5 +1,4 @@
 Game Over‑flöde
-Stegvis fartökning av boll
 
 Riktig grafik för
     boll

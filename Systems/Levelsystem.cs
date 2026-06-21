@@ -169,7 +169,7 @@ public class LevelSystem
     private void HandleIncreaeDifficulty(Ball ball)
     {
         // Increase ball speed gradually
-        DifficultySysem.IncreaseBallspeed(ball, _paddleHits);
+        DifficultySysem.UpdateBallspeed(ball, _paddleHits);
     }
 
     public void Update(GameTime gameTime, Ball ball, Paddle paddle, Viewport viewport)

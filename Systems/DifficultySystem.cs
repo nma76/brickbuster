@@ -12,7 +12,7 @@ public class DifficultySystem
         _lastSpeedIncreaseHit = 0;
         ball.ResetSpeed();
     }
-    public void IncreaseBallspeed(Ball ball, int paddleHits)
+    public void UpdateBallspeed(Ball ball, int paddleHits)
     {
         if (paddleHits - _lastSpeedIncreaseHit >= 5)
         {
