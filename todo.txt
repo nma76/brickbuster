@@ -1,9 +1,15 @@
+Intro-flöde
 Game Over‑flöde
 
 Riktig grafik för
     boll
     paddel
 
+Fler Power-ups:
+    Muli-ball
+    Shooter
+
+Score board
 
 Öka hastighet när få block återstår:
 int remaining = CurrentLevelData.Blocks.Count(b => !b.IsDestroyed);
@@ -33,6 +39,7 @@ Boss 2 – Chocolate Kingdom
 tyngre block
 chokladfloder som rör sig
 “smältande” block
+
 
 
 Level 1 – Intro
