@@ -61,7 +61,7 @@ public class LevelSystem
         // Decrease life
         if (LifeSystem.LoseLife())
         {
-            HandleGameOver();
+            HandleGameOver(ball, paddle);
         }
 
         // Attach ball to paddle
@@ -74,19 +74,35 @@ public class LevelSystem
     {
         _paddleHits++;
     }
+    public int GetPaddleHits()
+    {
+        return _paddleHits;
+    }
 
-    private void HandleGameOver()
+    private void HandleGameOver(Ball ball, Paddle paddle)
     {
         ScoreSystem.Reset();
         LifeSystem.Reset();
         CurrentLevel = 1;
         LoadLevel(CurrentLevel.ToString("0000"));
+
+        // Remove any PowerUp still onscreen
+        _activePowerUps.Clear();
+
+        // Restore paddle width and attach ball to paddle
+        paddle.Restore();
+        ball.AttachToPaddle(paddle.Rect);
+
+        // Reset ball speed
+        DifficultySysem.ResetBallSpeed(ball);
     }
+
     private void HandleGameCompleted()
     {
         OnGameCompleted?.Invoke(true);
     }
-    private void HandleBlocks(Ball ball)
+    
+    private void HandleBlocks()
     {
         foreach (var block in CurrentLevelData.Blocks)
         {
@@ -175,7 +191,7 @@ public class LevelSystem
     public void Update(GameTime gameTime, Ball ball, Paddle paddle, Viewport viewport)
     {
         HandleBallOutOfBounds(ball, paddle, viewport);
-        HandleBlocks(ball);
+        HandleBlocks();
         HandlePowerUps(gameTime, paddle);
         HandleLevelCompletion(ball, paddle);
         HandleIncreaeDifficulty(ball);

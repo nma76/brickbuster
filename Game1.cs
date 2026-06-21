@@ -5,6 +5,7 @@ using brickbuster.Config;
 using brickbuster.Entities;
 using brickbuster.Systems;
 using brickbuster.Models;
+using System.Linq;
 
 namespace brickbuster;
 
@@ -169,11 +170,23 @@ public class Game1 : Game
         // Draw the blocks
         _levelSystem.Draw(_spriteBatch, _pixel);
 
+        // Show current lifes
+        _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Lifes: {_lifeSystem.Lifes}", new Vector2(50, 5), Color.White);
+
         // show current score
         _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Score: {_scoreSystem.Score}", new Vector2(150, 5), Color.White);
 
-        // Show current lifes
-        _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Lifes: {_lifeSystem.Lifes}", new Vector2(50, 5), Color.White);
+        // Print debug information 
+        if (GameConstants.Debug)
+        {
+            // Show current ball speed
+            _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Ball Speed: {_ball.Velocity.Length():F0}", new Vector2(50, 50), Color.White);
+
+            // Show paddle hit count
+            _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Paddle Hits: {_levelSystem.GetPaddleHits()}", new Vector2(50, 70), Color.White);
+
+            _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Block remaining: {_levelSystem.CurrentLevelData.Blocks.Select(b => !b.IsDestroyed).Count()}", new Vector2(50, 90), Color.White);
+        }
 
         _spriteBatch.End();
         base.Draw(gameTime);
