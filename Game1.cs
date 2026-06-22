@@ -101,7 +101,7 @@ public class Game1 : Game
         _blockSystem = new BlockSystem(_powerUpSystem, _scoreSystem);
 
         // Initialize difficulty system
-        _difficultySystem = new DifficultySystem();
+        _difficultySystem = new DifficultySystem(_blockSystem);
 
         // Initialize the level system and create some blocks for testing
         _levelSystem = new LevelSystem(_lifeSystem, _scoreSystem, _audioSystem, _difficultySystem, _powerUpSystem, _blockSystem);
@@ -198,7 +198,11 @@ public class Game1 : Game
             // Show paddle hit count
             _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Paddle Hits: {_levelSystem.GetPaddleHits()}", new Vector2(50, 70), Color.White);
 
-            _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Block remaining: {_levelSystem.CurrentLevelData.Blocks.Select(b => !b.IsDestroyed).Count()}", new Vector2(50, 90), Color.White);
+            // Show remaining blocks
+            _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Block remaining: {_blockSystem.GetRemaining()}", new Vector2(50, 90), Color.White);
+
+            // Show end game speed boost
+            _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"End-game speed: {_difficultySystem.IsEndgameSpeed}", new Vector2(50, 110), Color.White);
         }
 
         _spriteBatch.End();

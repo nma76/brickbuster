@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Formats.Tar;
+using System.Linq;
 using brickbuster.Config;
 using brickbuster.Entities;
 using brickbuster.Entities.Blocks;
@@ -16,6 +18,11 @@ public class BlockSystem
     {
         _powerUpSystem = powerUpSystem;
         _scoreSystem = scoreSystem;
+    }
+
+    public int GetRemaining()
+    {
+        return Blocks.Select(b => !b.IsDestroyed).ToList().Count();
     }
 
     public void Update()

@@ -8,6 +8,7 @@ public static class GameConstants
     // Game play parameters
     public const int PlayerLifes = 2;
     public const float IncreseBallSpeedFactor = 1.05f;
+    public const float IncreseBallSpeedEndGameFactor = 1.4f;
 
     // Paddle parameters
     public const int PaddleWidth = 80;
@@ -32,7 +33,6 @@ public static class GameConstants
     public const float PowerUpSpeed = 150f;
     public const int PowerUpWidth = 32;
     public const int PowerUpHeight = 16;
-
 
     // Sfx and music parameters
     public const float SfxVolume = 1.0f;
