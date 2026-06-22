@@ -15,7 +15,7 @@ public class LevelSystem
     public LevelData CurrentLevelData { get; private set; }
 
     // Keeps track of the current level
-    public int CurrentLevel { get; private set; } = 18;
+    public int CurrentLevel { get; private set; } = 1;
 
     // Holds instances of sub-systems
     public LifeSystem LifeSystem { get; private set; }
