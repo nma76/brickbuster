@@ -23,8 +23,8 @@ public static class GameConstants
     public const float BallMaxSpeed = 1200f;
 
     // Block parameters
-    public const int BlockWidth = 80;
-    public const int BlockHeight = 30;
+    public const int BlockWidth = 64;
+    public const int BlockHeight = 32;
     public const int BlockSpacingX = 2;
     public const int BlockSpacingY = 2;
 
@@ -45,6 +45,6 @@ public static class GameConstants
 
     // Grid and boundary paramters
     public const int BorderThickness = 40;
-    public const int GridStartX = 115;
+    public const int GridStartX = 139;
     public const int GridStartY = 60;
 }

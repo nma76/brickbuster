@@ -4,19 +4,19 @@
     "isBossLevel": false,
     "isFinal": true,
     "grid": [
-        "............",
-        ".RRRRRRRRRR.",
-        ".ROOOOOOOOR.",
-        ".ROYYYYYYOR.",
-        ".ROYGGGGYOR.",
-        ".ROYGBBGYOR.",
-        ".ROYGGGGYOR.",
-        ".ROYYYYYYOR.",
-        ".ROOOOOOOOR.",
-        ".RRRRRRRRRR.",
-        "............",
-        "............",
-        "............",
-        "............"
+        "..............",
+        "..RRRRRRRRRR..",
+        "..ROOOOOOOOR..",
+        "..ROYYYYYYOR..",
+        "..ROYGGGGYOR..",
+        "..ROYGBBGYOR..",
+        "..ROYGGGGYOR..",
+        "..ROYYYYYYOR..",
+        "..ROOOOOOOOR..",
+        "..RRRRRRRRRR..",
+        "..............",
+        "..............",
+        "..............",
+        ".............."
     ]
 }

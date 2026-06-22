@@ -4,19 +4,19 @@
     "isBossLevel": true,
     "isFinal": false,
     "grid": [
-        ".....UUU.....",
-        "....URRRU....",
-        "...URYYRRU...",
-        "..URGOOGRRU..",
-        ".URGGOOOGRRU.",
-        ".URGGOOOGRRU.",
-        "..URGOOGRRU..",
-        "...URYYRRU...",
-        "UU..URRRU..UU",
-        "R...URRRU...R",
-        "Y...URRRU...Y",
-        ".BB.URRRU.BB.",
-        "..BBBBBBBBB..",
-        "....BBBBB...."
+        "......UUU......",
+        ".....URRRU.....",
+        "....URYYRRU....",
+        "...URGOOGRRU...",
+        "..URGGOOOGRRU..",
+        "..URGGOOOGRRU..",
+        "...URGOOGRRU...",
+        "....URYYRRU....",
+        ".UU..URRRU..UU.",
+        ".R...URRRU...R.",
+        ".Y...URRRU...Y.",
+        "..BB.URRRU.BB..",
+        "...BBBBBBBBB...",
+        ".....BBBBB....."
     ]
 }

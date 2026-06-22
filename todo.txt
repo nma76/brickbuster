@@ -11,14 +11,6 @@ Fler Power-ups:
 
 Score board
 
-Öka hastighet när få block återstår:
-int remaining = CurrentLevelData.Blocks.Count(b => !b.IsDestroyed);
-
-if (remaining < 10)
-    ball.IncreaseSpeed(1.02f);
-if (remaining < 5)
-    ball.IncreaseSpeed(1.03f);
-
 
 Öka hastighet per bana;
 public void ApplyLevelSpeedBonus(Ball ball)
