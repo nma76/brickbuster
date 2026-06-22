@@ -1,0 +1,22 @@
+{
+    "name": "Level 30 - The Mighty Octopus",
+    "background": "level0020",
+    "isBossLevel": true,
+    "isFinal": true,
+    "grid": [
+        ".....UUUU.....",
+        "....URRRRU....",
+        "...URYYYYRU...",
+        "..URGOOOOGRU..",
+        "..URGOOOOGRU..",
+        "..URGOOOOGRU..",
+        "...URGOOOGU...",
+        "....URYYRU....",
+        ".U...URRU...U.",
+        ".R...URRU...R.",
+        ".Y...URRU...Y.",
+        "..B..URRU..B..",
+        "...BBBBBBBB...",
+        ".....BBBB....."
+    ]
+}

@@ -7,7 +7,7 @@ namespace brickbuster.Entities.Blocks;
 public class InvisibleBlock : BlockBase
 {
     private bool _revealed = false;
-    public InvisibleBlock(int x, int y) : base(x, y, Color.Transparent, 2, 1000, PowerUpType.None, BlockType.Invisible)
+    public InvisibleBlock(int x, int y) : base(x, y, Color.Transparent, 2, 750, PowerUpType.None, BlockType.Invisible)
     {
     }
 

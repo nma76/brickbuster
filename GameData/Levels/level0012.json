@@ -1,0 +1,22 @@
+{
+    "name": "Level 11 - Sour and Special",
+    "background": "generic1",
+    "isBossLevel": false,
+    "isFinal": false,
+    "grid": [
+        "...LLLLLLLL...",
+        "..LGGGGGGGGL..",
+        ".LGGGGGGGGGGL.",
+        ".LGGLLLLLLGGL.",
+        "LGGGLGGGGGGGGL",
+        "LGGGLGGGGGGGGL",
+        "LGGGLLLLLLGGGL",
+        "LGGGGGGGGLGGGL",
+        "LGGGGGGGGLGGGL",
+        "LGGGLLLLLLGGGL",
+        ".LGGGGGGGGGGL.",
+        ".LGGGGGGGGGGL.",
+        "..LGGGGGGGGL..",
+        "...LLLLLLLL..."
+    ]
+}

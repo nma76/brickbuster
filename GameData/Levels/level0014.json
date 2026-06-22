@@ -1,0 +1,22 @@
+{
+    "name": "Level 14 - Candy",
+    "background": "generic1",
+    "isBossLevel": false,
+    "isFinal": false,
+    "grid": [
+        "UU...OOOO...UU",
+        "UOO.OYYYYO.OOU",
+        ".OOOYYYYYYOOO.",
+        "..OYYYYYYYYO..",
+        "..OYYHHHHYYO..",
+        "..OYYHHHHYYO..",
+        "..OYYYYYYYYO..",
+        ".OOOYYYYYYOOO.",
+        "UOO.OYYYYO.OOU",
+        "UU...OOOO...UU",
+        "..............",
+        "..............",
+        "..............",
+        ".............."
+    ]
+}

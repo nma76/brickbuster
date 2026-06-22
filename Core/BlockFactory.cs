@@ -10,10 +10,12 @@ public static class BlockFactory
         return symbol switch
         {
             'G' => new StandardBlock(x, y, Color.Green, 100),
+            'L' => new StandardBlock(x, y, Color.LimeGreen, 125),
             'B' => new StandardBlock(x, y, Color.Blue, 150),
-            'Y' => new StandardBlock(x, y, Color.Yellow, 200),
-            'O' => new StandardBlock(x, y, Color.Orange, 250),
-            'R' => new StandardBlock(x, y, Color.Red, 300),
+            'Y' => new StandardBlock(x, y, Color.Yellow, 175),
+            'O' => new StandardBlock(x, y, Color.Orange, 200),
+            'R' => new StandardBlock(x, y, Color.Red, 225),
+            'A' => new StandardBlock(x, y, Color.Black, 250),
             'H' => new HardBlock(x, y),
             'I' => new InvisibleBlock(x,y),
             'X' => new GhostBlock(x,y),

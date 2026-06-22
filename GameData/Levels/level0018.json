@@ -1,0 +1,21 @@
+{
+    "name": "Level 18 - Candy Pacifiers",
+    "background": "generic1",
+    "isBossHevel": false,
+    "isFinal": false,
+    "grid": [
+        "...RR.....YY..",
+        "..RRRR...YYYY.",
+        ".RRRRRR.YYYYYY",
+        ".RRIIRR.YYXXYY",
+        ".RRXXRR.YYIIYY",
+        ".RRIIRR.YYXXYY",
+        ".RROORR.YYLLYY",
+        "..OOOO...LLLL.",
+        "...YY.....GG..",
+        "...YY.....GG..",
+        "...YY.....GG..",
+        "...YY.....GG..",
+        "...YY.....GG.."
+    ]
+}

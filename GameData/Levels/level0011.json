@@ -2,7 +2,7 @@
     "name": "Level 11",
     "background": "generic1",
     "isBossLevel": false,
-    "isFinal": true,
+    "isFinal": false,
     "grid": [
         "..............",
         "..RRRRRRRRRR..",

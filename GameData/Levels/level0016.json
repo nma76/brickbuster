@@ -1,0 +1,22 @@
+{
+    "name": "Level 16 - Salty and Special",
+    "background": "generic1",
+    "isBossHevel": false,
+    "isFinal": false,
+    "grid": [
+        "...HHHHHHHH...",
+        "..HAAAAAAAAH..",
+        ".HAAAAAAAAAAH.",
+        ".HAAHHHHHHAAH.",
+        "HAAAHAAAAAAAAH",
+        "HAAAHAAAAAAAAH",
+        "HAAAHHHHHHAAAH",
+        "HAAAAAAAAHAAAH",
+        "HAAAAAAAAHAAAH",
+        "HAAAHHHHHHAAAH",
+        ".HAAAAAAAAAAH.",
+        ".HAAAAAAAAAAH.",
+        "..HAAAAAAAAH..",
+        "...HHHHHHHH..."
+    ]
+}

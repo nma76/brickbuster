@@ -6,7 +6,7 @@ namespace brickbuster.Entities.Blocks;
 
 public class GhostBlock : BlockBase
 {
-    public GhostBlock(int x, int y) : base(x, y, Color.FloralWhite, 3, 1500, PowerUpType.None, BlockType.Ghost)
+    public GhostBlock(int x, int y) : base(x, y, Color.White, 3, 1000, PowerUpType.None, BlockType.Ghost)
     {
     }
 
@@ -17,13 +17,13 @@ public class GhostBlock : BlockBase
             switch (HitPoints)
             {
                 case 3:
-                    spriteBatch.Draw(pixel, Rect, Color.FloralWhite * 0.5f);
+                    spriteBatch.Draw(pixel, Rect, Color.White * 1f);
                     break;
                 case 2:
-                    spriteBatch.Draw(pixel, Rect, Color.FloralWhite * 0.08f);
+                    spriteBatch.Draw(pixel, Rect, Color.White * 0.15f);
                     break;
                 case 1:
-                    spriteBatch.Draw(pixel, Rect, Color.FloralWhite * 0.025f);
+                    spriteBatch.Draw(pixel, Rect, Color.White * 0.03f);
                     break;
             }
         }

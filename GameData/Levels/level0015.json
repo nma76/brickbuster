@@ -1,0 +1,22 @@
+{
+    "name": "Level 15 - Jelly Beans",
+    "background": "generic1",
+    "isBossLevel": false,
+    "isFinal": false,
+    "grid": [
+        "....GG....RR....",
+        "...GGGG..RRRR...",
+        "..GGGGGGRRRRRR..",
+        "..GGHHGGRRHHRR..",
+        "..GGGGGGRRRRRR..",
+        "...GGGG..RRRR...",
+        "....GG.II.RR....",
+        "....YY.II.OO....",
+        "...YYYY..OOOO...",
+        "..YYYYYYOOOOOO..",
+        "..YYHHYYOOHHOO..",
+        "..YYYYYYOOOOOO..",
+        "...YYYY..OOOO...",
+        "....YY....OO...."
+    ]
+}

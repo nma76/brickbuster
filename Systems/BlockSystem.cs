@@ -22,7 +22,7 @@ public class BlockSystem
 
     public int GetRemaining()
     {
-        return Blocks.Select(b => !b.IsDestroyed).ToList().Count();
+        return Blocks.Where(b => !b.IsDestroyed).Count(b => b.Type != BlockType.Unbreakable); 
     }
 
     public void Update()

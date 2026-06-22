@@ -1,0 +1,22 @@
+{
+    "name": "Level 19 - Crystal",
+    "background": "generic1",
+    "isBossHevel": false,
+    "isFinal": false,
+    "grid": [
+        ".......I.......",
+        "......IYI......",
+        ".....IYYYI.....",
+        "....IYHHHYI....",
+        "...IYHXXXHYI...",
+        "..IYHXIIIXHYI..",
+        ".IYHXIAAAIXHYI..",
+        "..IYHXIIIXHYI..",
+        "...IYHXXXHYI...",
+        "....IYHHHYI....",
+        ".....IYYYI.....",
+        "......IYI......",
+        ".......I.......",
+        "..............."
+    ]
+}

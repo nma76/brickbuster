@@ -1,0 +1,22 @@
+{
+    "name": "Level 13 - Lollipop",
+    "background": "generic1",
+    "isBossLevel": false,
+    "isFinal": false,
+    "grid": [
+        ".....RRRR.....",
+        "....RYYYYR....",
+        "...RYYYYYYR...",
+        "..RYYYHHYYYR..",
+        "..RYYHHHHYYR..",
+        "..RYYHHHHYYR..",
+        "..RYYYHHYYYR..",
+        "...RYYYYYYR...",
+        "....RYYYYR....",
+        ".....RRRR.....",
+        "......UU......",
+        "......UU......",
+        "......UU......",
+        "......UU......"
+    ]
+}

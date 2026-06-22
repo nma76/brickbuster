@@ -1,22 +1,22 @@
 {
-    "name": "Level 10",
-    "background": "0002",
+    "name": "Level 10 - The Gummy Bear",
+    "background": "level0010",
     "isBossLevel": true,
     "isFinal": false,
     "grid": [
-        "......UUU......",
-        ".....URRRU.....",
-        "....URYYRRU....",
-        "...URGOOGRRU...",
-        "..URGGOOOGRRU..",
-        "..URGGOOOGRRU..",
-        "...URGOOGRRU...",
-        "....URYYRRU....",
-        ".UU..URRRU..UU.",
-        ".R...URRRU...R.",
-        ".Y...URRRU...Y.",
-        "..BB.URRRU.BB..",
-        "...BBBBBBBBB...",
-        ".....BBBBB....."
+        "....YY..YY....",
+        "...OGGUUGGO...",
+        "..OGGBGGBGGO..",
+        "..UGGGGGGGGU..",
+        "..UGGGGGGGGU..",
+        "..UGGYYYYGGU..",
+        "..UGYHHHHYGU..",
+        "..UGYHHHHYGU..",
+        "..UGGYYYYGGU..",
+        "..UGGRRRRGGU..",
+        "..UGRRRRRRGU..",
+        "...OGUGGUGO...",
+        "...OGUUUUGO...",
+        "....UU..UU...."
     ]
 }
