@@ -5,18 +5,26 @@ using brickbuster.Config;
 using brickbuster.Entities;
 using brickbuster.Systems;
 using brickbuster.Models;
-using System.Linq;
-using System.Net.Http.Headers;
+using brickbuster.uI;
 
 namespace brickbuster;
 
 public class Game1 : Game
 {
+    // Editor Mode variables
+    private bool _editorMode = false;
+    private EditorSystem _editorSystem;
+    private EditorOverlay _editorOverlay;
+
     private GraphicsDeviceManager _graphics;
+
     private SpriteBatch _spriteBatch;
 
     // Create a pixel texture for drawing rectangles
     private Texture2D _pixel;
+
+    // Holds the default font
+    private SpriteFont _defaultFont;
 
     // Handles all blocks
     private BlockSystem _blockSystem;
@@ -48,11 +56,12 @@ public class Game1 : Game
     // The ball that will bounce around the screen
     private Ball _ball;
 
-    public Game1()
+    public Game1(bool editorMode)
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+        _editorMode = editorMode;
     }
 
     private void HandleLevelChanged(LevelData levelData)
@@ -80,6 +89,10 @@ public class Game1 : Game
         _graphics.PreferredBackBufferWidth = 1200;
         _graphics.PreferredBackBufferHeight = 720;
         _graphics.ApplyChanges();
+
+        // Editor Mode overlay
+        _editorSystem = new EditorSystem();
+        _editorOverlay = new EditorOverlay(_editorSystem);
 
         // Initialize background system
         _backgroundSystem = new BackgroundSystem(GraphicsDevice);
@@ -128,10 +141,20 @@ public class Game1 : Game
 
         // Initialize sprite batch
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+        // Load the default font
+        _defaultFont = Content.Load<SpriteFont>("DefaultFont");
     }
 
     protected override void Update(GameTime gameTime)
     {
+        // Editor mode
+        if(_editorMode)
+        {
+            _editorSystem.Update(gameTime);
+            return;
+        }
+
         // Move the paddle based on the mouse's X position
         var mouse = Mouse.GetState();
         _paddle.MoveTo(mouse.X);
@@ -184,25 +207,31 @@ public class Game1 : Game
         _levelSystem.Draw(_spriteBatch, _pixel);
 
         // Show current lifes
-        _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Lifes: {_lifeSystem.Lifes}", new Vector2(50, 5), Color.White);
+        _spriteBatch.DrawString(_defaultFont, $"Lifes: {_lifeSystem.Lifes}", new Vector2(50, 5), Color.White);
 
         // show current score
-        _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Score: {_scoreSystem.Score}", new Vector2(150, 5), Color.White);
+        _spriteBatch.DrawString(_defaultFont, $"Score: {_scoreSystem.Score}", new Vector2(150, 5), Color.White);
+
+        // Editor Mode
+        if(_editorMode)
+        {
+            _editorOverlay.Draw(_spriteBatch, _pixel);
+        }
 
         // Print debug information 
         if (GameConstants.Debug)
         {
             // Show current ball speed
-            _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Ball Speed: {_ball.Velocity.Length():F0}", new Vector2(50, 50), Color.White);
+            _spriteBatch.DrawString(_defaultFont, $"Ball Speed: {_ball.Velocity.Length():F0}", new Vector2(50, 50), Color.White);
 
             // Show paddle hit count
-            _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Paddle Hits: {_levelSystem.GetPaddleHits()}", new Vector2(50, 70), Color.White);
+            _spriteBatch.DrawString(_defaultFont, $"Paddle Hits: {_levelSystem.GetPaddleHits()}", new Vector2(50, 70), Color.White);
 
             // Show remaining blocks
-            _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"Block remaining: {_blockSystem.GetRemaining()}", new Vector2(50, 90), Color.White);
+            _spriteBatch.DrawString(_defaultFont, $"Block remaining: {_blockSystem.GetRemaining()}", new Vector2(50, 90), Color.White);
 
             // Show end game speed boost
-            _spriteBatch.DrawString(Content.Load<SpriteFont>("DefaultFont"), $"End-game speed: {_difficultySystem.IsEndgameSpeed}", new Vector2(50, 110), Color.White);
+            _spriteBatch.DrawString(_defaultFont, $"End-game speed: {_difficultySystem.IsEndgameSpeed}", new Vector2(50, 110), Color.White);
         }
 
         _spriteBatch.End();

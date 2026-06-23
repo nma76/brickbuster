@@ -7,7 +7,7 @@ internal static class Program
     {
         bool editorMode = args.Contains("--editor");
 
-        using var game = new brickbuster.Game1();
+        using var game = new brickbuster.Game1(editorMode);
         game.Run();
     }
 }

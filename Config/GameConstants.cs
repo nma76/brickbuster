@@ -3,7 +3,7 @@ namespace brickbuster.Config;
 public static class GameConstants
 {
     // Show debug information and objects
-    public const bool Debug = true;
+    public const bool Debug = false;
 
     // Game play parameters
     public const int PlayerLifes = 2;
@@ -47,4 +47,7 @@ public static class GameConstants
     public const int BorderThickness = 40;
     public const int GridStartX = 139;
     public const int GridStartY = 60;
+
+    // Editor
+    public const int EditorGridThickness = 1;
 }
