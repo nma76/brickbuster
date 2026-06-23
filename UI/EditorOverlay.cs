@@ -24,6 +24,7 @@ public class EditorOverlay
 
     public void Draw(SpriteBatch spriteBatch, Texture2D pixel)
     {
+        // Draw the grid 
         for (int row = 0; row < 14; row++)
         {
             for (int column = 0; column < 14; column++)
@@ -31,6 +32,17 @@ public class EditorOverlay
                 Rectangle rect = GridHelper.GetGridCellRectangle(column, row);
                 DrawRectangleOutline(spriteBatch, pixel, rect, Color.Yellow);
             }
+        }
+
+        // Highlite cell if hovered with mouse
+        if (_editorSystem.HoveredCell.HasValue)
+        {
+            var cell = _editorSystem.HoveredCell.Value;
+
+            Rectangle rect =
+                GridHelper.GetGridCellRectangle(cell.X, cell.Y);
+
+            spriteBatch.Draw(pixel, rect, Color.Yellow * 0.25f);
         }
     }
 
