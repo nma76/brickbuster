@@ -18,11 +18,11 @@ public static class GridHelper
 
     public static Point? GetCellAtPosition(Point mousePosition)
     {
-        for(int row = 0; row < 14; row ++)
+        for (int row = 0; row < 14; row++)
         {
             for (int col = 0; col < 14; col++)
             {
-                if(GetGridCellRectangle(col, row).Contains(mousePosition))
+                if (GetGridCellRectangle(col, row).Contains(mousePosition))
                 {
                     return new Point(col, row);
                 }

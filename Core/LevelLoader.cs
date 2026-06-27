@@ -58,7 +58,8 @@ public static class LevelLoader
             Background = data.Background,
             IsBossLevel = data.IsBossLevel,
             IsFinal = data.IsFinal,
-            Blocks = blocks
+            Blocks = blocks,
+            Source = data
         };
     }
 }

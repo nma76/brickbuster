@@ -38,11 +38,27 @@ public class EditorOverlay
         if (_editorSystem.HoveredCell.HasValue)
         {
             var cell = _editorSystem.HoveredCell.Value;
-
-            Rectangle rect =
-                GridHelper.GetGridCellRectangle(cell.X, cell.Y);
-
+            Rectangle rect = GridHelper.GetGridCellRectangle(cell.X, cell.Y);
             spriteBatch.Draw(pixel, rect, Color.Yellow * 0.25f);
+        }
+
+        for (int row = 0; row < 14; row++)
+        {
+            for (int col = 0; col < 14; col++)
+            {
+                char symbol = _editorSystem.LevelSystem.CurrentLevelData.Source.Grid[row][col];
+
+                if (symbol == '.')
+                {
+                    continue;
+                }
+
+                Rectangle rect = GridHelper.GetGridCellRectangle(col, row);
+
+                // TODO: Change to correct color
+                spriteBatch.Draw(pixel, rect, Color.Aqua);
+                // spriteBatch.Draw(pixel, rect, GetEditorColor(symbol));
+            }
         }
     }
 

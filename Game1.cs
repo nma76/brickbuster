@@ -90,10 +90,6 @@ public class Game1 : Game
         _graphics.PreferredBackBufferHeight = 720;
         _graphics.ApplyChanges();
 
-        // Editor Mode overlay
-        _editorSystem = new EditorSystem();
-        _editorOverlay = new EditorOverlay(_editorSystem);
-
         // Initialize background system
         _backgroundSystem = new BackgroundSystem(GraphicsDevice);
 
@@ -122,6 +118,10 @@ public class Game1 : Game
         _levelSystem.OnGameCompleted += HandleGameCompleted;
         _levelSystem.LoadLevel(_levelSystem.CurrentLevel.ToString("0000"));
 
+        // Editor Mode overlay
+        _editorSystem = new EditorSystem(_levelSystem);
+        _editorOverlay = new EditorOverlay(_editorSystem);
+
         // Initialize the player's paddle
         _paddle = new Paddle(GraphicsDevice.Viewport);
 
@@ -149,7 +149,7 @@ public class Game1 : Game
     protected override void Update(GameTime gameTime)
     {
         // Editor mode
-        if(_editorMode)
+        if (_editorMode)
         {
             _editorSystem.Update(gameTime);
             return;
@@ -213,7 +213,7 @@ public class Game1 : Game
         _spriteBatch.DrawString(_defaultFont, $"Score: {_scoreSystem.Score}", new Vector2(150, 5), Color.White);
 
         // Editor Mode
-        if(_editorMode)
+        if (_editorMode)
         {
             _editorOverlay.Draw(_spriteBatch, _pixel);
         }
